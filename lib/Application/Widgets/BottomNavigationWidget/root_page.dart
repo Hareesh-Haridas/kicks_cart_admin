@@ -3,6 +3,8 @@ import 'package:admin/Application/Presentation/screens/Add%20product%20screen/pr
 import 'package:admin/Application/Presentation/screens/Edit%20screen/edit_screen.dart';
 import 'package:admin/Application/Presentation/screens/Home/home_screen.dart';
 import 'package:admin/Application/Presentation/screens/Order%20Screen/order_screen.dart';
+import 'package:admin/Application/Presentation/screens/add%20category%20screen/add_category_screen.dart';
+import 'package:admin/Application/Presentation/screens/category%20list%20screen/category_list_screen.dart';
 import 'package:admin/Application/Widgets/BottomNavigationWidget/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,6 +31,6 @@ class RootPage extends StatelessWidget {
 List<Widget> screens = [
   const HomeScreen(),
   const AddPrductScreen(),
-  const EditProductScreen(),
+  const CategoryListScreen(),
   const OrderScreen()
 ];

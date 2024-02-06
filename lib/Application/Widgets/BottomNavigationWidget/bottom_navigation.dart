@@ -40,8 +40,8 @@ class BottomNav extends StatelessWidget {
               iconColor: kWhite,
             ),
             GButton(
-              icon: Icons.edit,
-              text: 'Edit',
+              icon: Icons.category_outlined,
+              text: 'Categories',
               iconColor: kWhite,
             ),
             GButton(

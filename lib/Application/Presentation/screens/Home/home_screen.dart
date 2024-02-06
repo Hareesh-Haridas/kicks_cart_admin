@@ -1,3 +1,4 @@
+import 'package:admin/Application/Presentation/screens/Edit%20screen/edit_screen.dart';
 import 'package:admin/Application/Presentation/screens/Home/widgets/kicks_kart_text_widget.dart';
 import 'package:admin/Application/Presentation/screens/Home/widgets/product_list.dart';
 import 'package:admin/Application/Presentation/utils/colors.dart';
@@ -76,7 +77,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Icons.delete_outlined,
                                     color: Colors.red,
                                   ),
-                                )
+                                ),
+                                IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const EditProductScreen()));
+                                    },
+                                    icon: const Icon(Icons.edit))
                               ],
                             ),
                             Image.asset(
