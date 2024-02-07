@@ -8,6 +8,8 @@ class BrandModel {
   factory BrandModel.fromJson(Map<String, dynamic> json) {
     return BrandModel(
         name: json['name'] ?? "",
-        image: '$baseUrl/categories/' + json['image']);
+        image: json['image'] != null
+            ? '$baseUrl/categories/' + json['image'].toString()
+            : "");
   }
 }

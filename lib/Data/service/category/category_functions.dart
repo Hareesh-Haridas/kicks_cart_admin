@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:admin/Application/Presentation/screens/add%20category%20screen/add_category_screen.dart';
+import 'package:admin/Application/Presentation/screens/category%20list%20screen/category_list_screen.dart';
 import 'package:admin/Application/Presentation/utils/colors.dart';
 import 'package:admin/Data/service/auth/autherization_functions.dart';
 import 'package:admin/Data/service/category/config.dart';
@@ -25,7 +26,10 @@ Future<BrandModel> addBrand(
     if (response.statusCode == 200 || response.statusCode == 201) {
       print("reponse get is oky");
       print(response.data);
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => CategoryListScreen()));
       Navigator.of(context).pop();
+
       showSnackBar(context, 'Category Added');
       return BrandModel.fromJson(response.data);
     } else {
