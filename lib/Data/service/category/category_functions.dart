@@ -13,7 +13,7 @@ import 'package:dio/dio.dart';
 
 Future<BrandModel> addBrand(
     String name, File image, String authToken, BuildContext context) async {
-  BrandModel brand = BrandModel(name: "", image: "");
+  BrandModel brand = BrandModel(name: "", image: "", id: "");
   try {
     FormData formData = FormData.fromMap({
       "name": name,
@@ -24,6 +24,8 @@ Future<BrandModel> addBrand(
         data: formData,
         options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
     if (response.statusCode == 200 || response.statusCode == 201) {
+      final brandModel = BrandModel.fromJson(response.data);
+      print("Brand ID: ${brandModel.id}");
       print("reponse get is oky");
       print(response.data);
       Navigator.pushReplacement(context,
@@ -59,6 +61,26 @@ Future<List<BrandModel>> getCategories() async {
   } catch (e) {
     print('Error Fetching Categories $e');
     return [];
+  }
+}
+
+String deleteResponseMessage = "";
+Future<void> deleteCategory(String id, BuildContext context) async {
+  try {
+    print(id);
+    FormData formData = FormData.fromMap({
+      "id": id,
+    });
+    final response = await Dio().delete(deleteCategoryUrl,
+        data: formData,
+        options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
+    print(response);
+    deleteResponseMessage = response.data['message'];
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      showSnackBar(context, deleteResponseMessage);
+    }
+  } catch (e) {
+    print(e);
   }
 }
 

@@ -108,7 +108,11 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       IconButton(
-                                          onPressed: () {},
+                                          onPressed: () async {
+                                            print(categories[index].id);
+                                            await deleteCategory(
+                                                categories[index].id, context);
+                                          },
                                           icon: const Icon(
                                             Icons.delete_outline,
                                             color: kRed,

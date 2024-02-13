@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:admin/Data/service/auth/autherization_functions.dart';
 import 'package:admin/Data/service/category/category_functions.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:admin/Application/Presentation/screens/add%20category%20screen/widgets/category_appbar_widget.dart';
@@ -8,6 +9,8 @@ import 'package:admin/Application/Presentation/utils/colors.dart';
 import 'package:admin/Application/Presentation/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+
+import '../../../Business logic/category/bloc/bloc/category_bloc.dart';
 
 class AddCategoryScreen extends StatefulWidget {
   const AddCategoryScreen({super.key});
@@ -120,7 +123,10 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                             if (brandKey.currentState!.validate()) {
                               if (image != null) {
                                 await addBrand(brandNameController.text, image!,
-                                    authToken!, context);
+                                        authToken!, context)
+                                    .whenComplete(() => context
+                                        .read<CategoryBloc>()
+                                        .add(FetchCategoriesEvent()));
                               }
                             }
                           },

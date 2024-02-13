@@ -1,10 +1,13 @@
+import 'package:admin/Application/Presentation/screens/Add%20product%20screen/product_add_screen.dart';
+import 'package:admin/Application/Presentation/screens/Add%20product%20screen/widgets/text_form_field_widgets.dart';
+import 'package:admin/Application/Presentation/screens/add%20category%20screen/add_category_screen.dart';
 import 'package:admin/Application/Presentation/utils/colors.dart';
+import 'package:admin/Data/service/product/product_functions.dart';
 import 'package:flutter/material.dart';
 
 class AddProductButton extends StatelessWidget {
-  const AddProductButton({
-    super.key,
-  });
+  final BuildContext contexts;
+  const AddProductButton({super.key, required this.contexts});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +16,20 @@ class AddProductButton extends StatelessWidget {
       children: [
         Expanded(
           child: MaterialButton(
-            onPressed: () {},
+            onPressed: () async {
+              if (formKey.currentState!.validate()) {
+                await addProduct(
+                    selectedImages,
+                    productNameController.text,
+                    int.parse(productPriceController.text),
+                    productDescriptionController.text,
+                    counter,
+                    valueChoose!,
+                    authToken!,
+                    "",
+                    contexts);
+              }
+            },
             color: kBlueGray,
             textColor: kWhite,
             shape:
