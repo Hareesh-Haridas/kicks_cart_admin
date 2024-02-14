@@ -8,7 +8,6 @@ import 'package:admin/Data/service/auth/autherization_functions.dart';
 import 'package:admin/Data/service/category/config.dart';
 import 'package:admin/Domain/models/add%20category%20model/add_category_model.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
 
 Future<BrandModel> addBrand(
@@ -68,11 +67,9 @@ String deleteResponseMessage = "";
 Future<void> deleteCategory(String id, BuildContext context) async {
   try {
     print(id);
-    FormData formData = FormData.fromMap({
-      "id": id,
-    });
-    final response = await Dio().delete(deleteCategoryUrl,
-        data: formData,
+    // FormData formData = FormData.fromMap({"id": id});
+    // print(formData);
+    final response = await Dio().delete('$deleteCategoryUrl/$id',
         options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
     print(response);
     deleteResponseMessage = response.data['message'];
@@ -82,6 +79,25 @@ Future<void> deleteCategory(String id, BuildContext context) async {
   } catch (e) {
     print(e);
   }
+}
+
+String editResponseMessage = '';
+Future<BrandModel> editCategory(
+    String name, File image, BuildContext context, String id) async {
+  BrandModel brandModel = BrandModel(name: "", image: "", id: "");
+  FormData formData = FormData.fromMap({
+    "name": name,
+    "image": await MultipartFile.fromFile(image.path, filename: "image.jpg")
+  });
+  try {
+    final response = await Dio().put(editCategoryUrl,
+        data: formData,
+        options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
+    editResponseMessage = response.data['message'];
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      showSnackBar(context, editResponseMessage);
+    }
+  } catch (e) {}
 }
 
 void showSnackBar(BuildContext context, String message) {

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:admin/Application/Business%20logic/category/bloc/bloc/category_bloc.dart';
 import 'package:admin/Application/Presentation/screens/category%20list%20screen/widgets/category_list_appbar_widget.dart';
+import 'package:admin/Application/Presentation/screens/edit%20category%20screen/edit_category_screen.dart';
 import 'package:admin/Application/Presentation/utils/colors.dart';
 import 'package:admin/Application/Presentation/utils/constants.dart';
 import 'package:admin/Data/service/auth/config.dart';
@@ -109,16 +110,53 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                     children: [
                                       IconButton(
                                           onPressed: () async {
-                                            print(categories[index].id);
-                                            await deleteCategory(
-                                                categories[index].id, context);
+                                            showDialog(
+                                              context: context,
+                                              builder: (_) => AlertDialog(
+                                                title: const Text(
+                                                    'Are you sure you want to delete?'),
+                                                content: const Text(
+                                                    'Delete this Category'),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child:
+                                                          const Text('Cancel')),
+                                                  TextButton(
+                                                      onPressed: () async {
+                                                        await deleteCategory(
+                                                                categories[
+                                                                        index]
+                                                                    .id,
+                                                                context)
+                                                            .whenComplete(() => context
+                                                                .read<
+                                                                    CategoryBloc>()
+                                                                .add(
+                                                                    FetchCategoriesEvent()));
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child:
+                                                          const Text("Delete"))
+                                                ],
+                                              ),
+                                            );
                                           },
                                           icon: const Icon(
                                             Icons.delete_outline,
                                             color: kRed,
                                           )),
                                       IconButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const EditCategoryScreen()));
+                                          },
                                           icon: const Icon(
                                             Icons.edit_outlined,
                                             color: kBlue,
@@ -150,18 +188,3 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
     );
   }
 }
-//  FutureBuilder<List<BrandModel>>(
-//               future: getCategories(),
-//               builder: (context, snapshot) {
-//                 if (snapshot.connectionState == ConnectionState.waiting) {
-//                   return const Center(child: CircularProgressIndicator());
-//                 } else if (snapshot.hasError) {
-//                   return Center(child: Text('Error: ${snapshot.error}'));
-//                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-//                   return const Center(child: Text("No Categories Available"));
-//                 } else {
-//                   List<BrandModel> categories = snapshot.data!;
-//                 }
-//               },
-//             )
- 
