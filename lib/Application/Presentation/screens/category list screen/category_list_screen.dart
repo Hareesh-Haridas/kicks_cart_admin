@@ -51,7 +51,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
               if (state is LoadingCategoryState) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is LoadedCategoryState) {
-                List<BrandModel> categories = state.categories;
+                List<BrandModel>? categories = state.categories;
                 if (categories.isEmpty) {
                   return const Center(child: Text('No Categories Avaiable'));
                 } else {
@@ -155,7 +155,16 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                             Navigator.of(context).push(
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const EditCategoryScreen()));
+                                                        EditCategoryScreen(
+                                                          categoryImage:
+                                                              categories[index]
+                                                                  .image,
+                                                          categoryName:
+                                                              categories[index]
+                                                                  .name,
+                                                          id: categories[index]
+                                                              .id,
+                                                        )));
                                           },
                                           icon: const Icon(
                                             Icons.edit_outlined,

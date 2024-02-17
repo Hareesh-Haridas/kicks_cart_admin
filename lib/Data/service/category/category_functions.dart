@@ -87,7 +87,8 @@ Future<BrandModel> editCategory(
   BrandModel brandModel = BrandModel(name: "", image: "", id: "");
   FormData formData = FormData.fromMap({
     "name": name,
-    "image": await MultipartFile.fromFile(image.path, filename: "image.jpg")
+    "image": await MultipartFile.fromFile(image.path, filename: "image.jpg"),
+    "id": id
   });
   try {
     final response = await Dio().put(editCategoryUrl,
@@ -95,9 +96,19 @@ Future<BrandModel> editCategory(
         options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
     editResponseMessage = response.data['message'];
     if (response.statusCode == 200 || response.statusCode == 201) {
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => CategoryListScreen()));
+      Navigator.of(context).pop();
       showSnackBar(context, editResponseMessage);
+      return BrandModel.fromJson(response.data);
+    } else {
+      print('peoblem in edit category');
+      return brandModel;
     }
-  } catch (e) {}
+  } catch (e) {
+    print(e);
+    return brandModel;
+  }
 }
 
 void showSnackBar(BuildContext context, String message) {

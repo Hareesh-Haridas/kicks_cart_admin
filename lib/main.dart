@@ -1,5 +1,6 @@
 import 'package:admin/Application/Business%20logic/Bottom%20Nav/bloc/bottom_navigation_bloc.dart';
 import 'package:admin/Application/Business%20logic/category/bloc/bloc/category_bloc.dart';
+import 'package:admin/Application/Business%20logic/product/bloc/bloc/product_bloc.dart';
 import 'package:admin/Application/Presentation/screens/Add%20product%20screen/product_add_screen.dart';
 import 'package:admin/Application/Presentation/screens/Edit%20screen/edit_screen.dart';
 import 'package:admin/Application/Presentation/screens/Home/home_screen.dart';
@@ -31,7 +32,8 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider<BottomNavigationBloc>(
               create: (context) => BottomNavigationBloc()),
-          BlocProvider<CategoryBloc>(create: (context) => CategoryBloc())
+          BlocProvider<CategoryBloc>(create: (context) => CategoryBloc()),
+          BlocProvider<ProductBloc>(create: (context) => ProductBloc())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:admin/Application/Presentation/utils/colors.dart';
+import 'package:admin/Data/service/auth/autherization_functions.dart';
 import 'package:admin/Data/service/product/config.dart';
+import 'package:admin/Domain/models/product/get%20product%20model/get_product_model.dart';
 import 'package:admin/Domain/models/product/product_model.dart';
 //import 'package:http/http.dart';
 import 'package:dio/dio.dart';
@@ -60,6 +62,26 @@ Future<ProductModel> addProduct(
   } catch (e) {
     print('Error $e');
     return productModel;
+  }
+}
+
+Future<List<GetProductModel>> getProducts() async {
+  try {
+    final response = await Dio().get(getProductUrl,
+        options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
+    print(response.data);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      List<GetProductModel> products = (response.data['data'] as List)
+          .map((json) => GetProductModel.fromJson(json))
+          .toList();
+      return products;
+    } else {
+      print('Failed to Fetch Products');
+      return [];
+    }
+  } catch (e) {
+    print('Error Fetching Products $e');
+    return [];
   }
 }
 
