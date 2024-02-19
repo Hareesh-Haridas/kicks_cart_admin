@@ -17,8 +17,8 @@ class GetProductModel {
       required this.category});
   factory GetProductModel.fromJson(Map<String, dynamic> json) {
     return GetProductModel(
-        id: json['id'] ?? "",
-        images: json['image'] ?? "",
+        id: json['_id'] != null ? json['_id'].toString() : "",
+        images: json['image'] != null ? List.from(json['image']) : [],
         name: json['name'] ?? "",
         price: json['price'] ?? 0,
         description: json['description'] ?? "",

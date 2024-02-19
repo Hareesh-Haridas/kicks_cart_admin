@@ -126,22 +126,21 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                                       child:
                                                           const Text('Cancel')),
                                                   TextButton(
-                                                      onPressed: () async {
-                                                        await deleteCategory(
-                                                                categories[
-                                                                        index]
-                                                                    .id,
-                                                                context)
-                                                            .whenComplete(() => context
-                                                                .read<
-                                                                    CategoryBloc>()
-                                                                .add(
-                                                                    FetchCategoriesEvent()));
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child:
-                                                          const Text("Delete"))
+                                                    onPressed: () async {
+                                                      await deleteCategory(
+                                                              categories[index]
+                                                                  .id,
+                                                              context)
+                                                          .whenComplete(() => context
+                                                              .read<
+                                                                  CategoryBloc>()
+                                                              .add(
+                                                                  FetchCategoriesEvent()));
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text("Delete"),
+                                                  )
                                                 ],
                                               ),
                                             );

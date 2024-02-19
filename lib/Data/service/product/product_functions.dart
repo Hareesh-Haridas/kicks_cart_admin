@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:admin/Application/Presentation/utils/colors.dart';
 import 'package:admin/Data/service/auth/autherization_functions.dart';
+import 'package:admin/Data/service/category/category_functions.dart';
 import 'package:admin/Data/service/product/config.dart';
 import 'package:admin/Domain/models/product/get%20product%20model/get_product_model.dart';
 import 'package:admin/Domain/models/product/product_model.dart';
@@ -82,6 +83,22 @@ Future<List<GetProductModel>> getProducts() async {
   } catch (e) {
     print('Error Fetching Products $e');
     return [];
+  }
+}
+
+String deleteProductMessage = "";
+Future<void> deleteProduct(String id, BuildContext context) async {
+  print('Delete product called');
+  try {
+    final response = await Dio().delete('$deleteProductUrl/$id',
+        options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
+    print(response);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      deleteProductMessage = response.data['message'];
+      productShowSnackBar(context, deleteResponseMessage);
+    }
+  } catch (e) {
+    print('Error in Delete Category $e');
   }
 }
 

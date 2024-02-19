@@ -8,6 +8,7 @@ import 'package:admin/Application/Presentation/utils/colors.dart';
 import 'package:admin/Application/Presentation/utils/constants.dart';
 import 'package:admin/Data/service/auth/autherization_functions.dart';
 import 'package:admin/Data/service/product/config.dart';
+import 'package:admin/Data/service/product/product_functions.dart';
 import 'package:admin/Domain/models/product/get%20product%20model/get_product_model.dart';
 import 'package:admin/Domain/models/product/product_model.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
               kHeight30,
               const NameAndLogoutButton(),
               kHeight20,
-              const SearchWidget(),
+              SearchWidget(),
               kHeight20,
               BlocBuilder<ProductBloc, ProductState>(
                 builder: (context, state) {
@@ -55,6 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     return const CircularProgressIndicator();
                   } else if (state is LoadededProductState) {
                     List<GetProductModel>? products = state.products;
+
                     if (products.isEmpty) {
                       return const Text('No Products Available');
                     } else {
@@ -67,6 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2, childAspectRatio: 0.75),
                         itemBuilder: (context, index) {
+                          String imageFileName = products[index].images[0];
+                          String imageUrl = '$baseUrl/$imageFileName';
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -81,8 +85,47 @@ class _HomeScreenState extends State<HomeScreen> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       IconButton(
-                                        onPressed: () {
-                                          print(products[index].images[0]);
+                                        onPressed: () async {
+                                          showDialog(
+                                              context: context,
+                                              builder: (_) => AlertDialog(
+                                                    title: const Text(
+                                                        'Delete Product'),
+                                                    content: const Text(
+                                                        'Are You Sure You Want To Delete This Product?'),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: const Text(
+                                                            'Cancel'),
+                                                      ),
+                                                      TextButton(
+                                                          onPressed: () async {
+                                                            print(
+                                                                products[index]
+                                                                    .id);
+                                                            await deleteProduct(
+                                                                    products[
+                                                                            index]
+                                                                        .id,
+                                                                    context)
+                                                                .whenComplete(
+                                                                    () => context
+                                                                        .read<
+                                                                            ProductBloc>()
+                                                                        .add(
+                                                                            FetchProductsEvent()));
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: const Text(
+                                                              "Delete"))
+                                                    ],
+                                                  ));
                                         },
                                         icon: const Icon(
                                           Icons.delete_outlined,
@@ -100,12 +143,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                           icon: const Icon(Icons.edit))
                                     ],
                                   ),
-                                  Image.network(
-                                    'http://192.168.137.1:3000/admin/17077948160521000133183.jpg',
-                                    fit: BoxFit.cover,
-                                    height: 90,
-                                    width: 150,
-                                  ),
+                                  // Image.network(
+                                  //   imageUrl,
+                                  //   fit: BoxFit.cover,
+                                  //   height: 90,
+                                  //   width: 150,
+                                  // ),
                                   Text(
                                     products[index].name,
                                     style: const TextStyle(
@@ -140,70 +183,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-// GridView.builder(
-//                 physics: const NeverScrollableScrollPhysics(),
-//                 scrollDirection: Axis.vertical,
-//                 shrinkWrap: true,
-//                 itemCount: productData.length,
-//                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//                     crossAxisCount: 2, childAspectRatio: 0.75),
-//                 itemBuilder: (_, int index) {
-//                   return Padding(
-//                     padding: const EdgeInsets.all(8.0),
-//                     child: Container(
-//                       height: 300,
-//                       decoration: BoxDecoration(
-//                         border: Border.all(),
-//                         borderRadius: BorderRadius.circular(10),
-//                       ),
-//                       child: Column(
-//                         children: [
-//                           Row(
-//                             mainAxisAlignment: MainAxisAlignment.end,
-//                             children: [
-//                               IconButton(
-//                                 onPressed: () {},
-//                                 icon: const Icon(
-//                                   Icons.delete_outlined,
-//                                   color: Colors.red,
-//                                 ),
-//                               ),
-//                               IconButton(
-//                                   onPressed: () {
-//                                     Navigator.push(
-//                                         context,
-//                                         MaterialPageRoute(
-//                                             builder: (context) =>
-//                                                 const EditProductScreen()));
-//                                   },
-//                                   icon: const Icon(Icons.edit))
-//                             ],
-//                           ),
-//                           Image.asset(
-//                             productData[index]['image']!,
-//                             fit: BoxFit.cover,
-//                             height: 90,
-//                             width: 150,
-//                           ),
-//                           Text(
-//                             productData[index]['name']!,
-//                             style: const TextStyle(
-//                                 fontWeight: FontWeight.w300, fontSize: 18),
-//                           ),
-//                           kHeight10,
-//                           Row(
-//                             children: [
-//                               kWidth10,
-//                               Text(
-//                                 productData[index]['price']!,
-//                                 style: const TextStyle(
-//                                     fontWeight: FontWeight.bold, fontSize: 20),
-//                               )
-//                             ],
-//                           )
-//                         ],
-//                       ),
-//                     ),
-//                   );
-//                 },
-//               )
