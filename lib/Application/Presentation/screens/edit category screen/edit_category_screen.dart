@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:admin/Application/Business%20logic/category/bloc/bloc/category_bloc.dart';
 import 'package:admin/Application/Presentation/screens/add%20category%20screen/add_category_screen.dart';
 import 'package:admin/Application/Presentation/screens/edit%20category%20screen/appbar_widget.dart';
 import 'package:admin/Application/Presentation/utils/colors.dart';
 import 'package:admin/Application/Presentation/utils/constants.dart';
 import 'package:admin/Data/service/category/category_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
 // ignore: must_be_immutable
@@ -134,7 +136,9 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                             editImage!,
                             context,
                             widget.id,
-                          );
+                          ).whenComplete(() => context
+                              .read<CategoryBloc>()
+                              .add(FetchCategoriesEvent()));
                         },
                         child: const Text(
                           "Submit",

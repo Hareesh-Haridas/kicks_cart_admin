@@ -91,7 +91,7 @@ Future<BrandModel> editCategory(
     "id": id
   });
   try {
-    final response = await Dio().put(editCategoryUrl,
+    final response = await Dio().post(editCategoryUrl,
         data: formData,
         options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
     editResponseMessage = response.data['message'];

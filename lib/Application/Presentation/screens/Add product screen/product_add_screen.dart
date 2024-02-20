@@ -32,6 +32,18 @@ List<File?> selectedImages = [];
 GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 class _AddPrductScreenState extends State<AddPrductScreen> {
+  @override
+  void dispose() {
+    print('dispose is called--------');
+    selectedImages.clear();
+    productNameController.clear();
+    productPriceController.clear();
+    productDescriptionController.clear();
+    counter = 0;
+    valueChoose = null;
+    super.dispose();
+  }
+
   void increment() {
     setState(() {
       counter++;
@@ -63,6 +75,17 @@ class _AddPrductScreenState extends State<AddPrductScreen> {
     super.initState();
     futureCategories = getCategories();
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   selectedImages.clear();
+  //   productNameController.clear();
+  //   productPriceController.clear();
+  //   productDescriptionController.clear();
+  //   counter = 0;
+  //   valueChoose = null;
+  // }
 
   @override
   Widget build(BuildContext context) {

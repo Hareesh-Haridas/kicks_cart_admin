@@ -70,7 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 crossAxisCount: 2, childAspectRatio: 0.75),
                         itemBuilder: (context, index) {
                           String imageFileName = products[index].images[0];
-                          String imageUrl = '$baseUrl/$imageFileName';
+                          print(imageFileName);
+                          String imageUrl = '$productUrl/$imageFileName';
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -143,12 +144,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                           icon: const Icon(Icons.edit))
                                     ],
                                   ),
-                                  // Image.network(
-                                  //   imageUrl,
-                                  //   fit: BoxFit.cover,
-                                  //   height: 90,
-                                  //   width: 150,
-                                  // ),
+                                  Image.network(
+                                    imageUrl,
+                                    fit: BoxFit.cover,
+                                    height: 90,
+                                    width: 150,
+                                  ),
                                   Text(
                                     products[index].name,
                                     style: const TextStyle(
