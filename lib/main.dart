@@ -2,7 +2,7 @@ import 'package:admin/Application/Business%20logic/Bottom%20Nav/bloc/bottom_navi
 import 'package:admin/Application/Business%20logic/category/bloc/bloc/category_bloc.dart';
 import 'package:admin/Application/Business%20logic/product/bloc/bloc/product_bloc.dart';
 import 'package:admin/Application/Presentation/screens/Add%20product%20screen/product_add_screen.dart';
-import 'package:admin/Application/Presentation/screens/Edit%20screen/edit_screen.dart';
+import 'package:admin/Application/Presentation/screens/edit%20product%20screen/edit_screen.dart';
 import 'package:admin/Application/Presentation/screens/Home/home_screen.dart';
 import 'package:admin/Application/Presentation/screens/LoginScreen/login_screen.dart';
 import 'package:admin/Application/Presentation/screens/add%20category%20screen/add_category_screen.dart';

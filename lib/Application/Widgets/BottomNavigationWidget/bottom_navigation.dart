@@ -1,4 +1,6 @@
 import 'package:admin/Application/Business%20logic/Bottom%20Nav/bloc/bottom_navigation_bloc.dart';
+import 'package:admin/Application/Presentation/screens/Add%20product%20screen/product_add_screen.dart';
+import 'package:admin/Application/Presentation/screens/Add%20product%20screen/widgets/text_form_field_widgets.dart';
 import 'package:admin/Application/Presentation/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +25,12 @@ class BottomNav extends StatelessWidget {
             context
                 .read<BottomNavigationBloc>()
                 .add(IndexChangerEvent(index: value));
+            selectedImages.clear();
+            productNameController.clear();
+            productPriceController.clear();
+            productDescriptionController.clear();
+            counter = 0;
+            valueChoose = null;
           },
           activeColor: kWhite,
           tabBackgroundColor: Colors.amber,

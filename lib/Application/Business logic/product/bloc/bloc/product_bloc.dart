@@ -7,7 +7,7 @@ import 'package:admin/Data/service/product/product_functions.dart';
 import 'package:admin/Domain/models/product/get%20product%20model/get_product_model.dart';
 
 
-import 'package:admin/Domain/models/product/product_model.dart';
+import 'package:admin/Domain/models/product/add%20product%20model/product_model.dart';
 
 
 import 'package:bloc/bloc.dart';

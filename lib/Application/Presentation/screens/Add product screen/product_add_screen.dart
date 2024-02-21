@@ -24,26 +24,10 @@ late Future<List<dynamic>> futureCategories;
 List<String> selectedFilterChips = [];
 int counter = 0;
 String? valueChoose;
-//List listItem = ["Sports", "Casual", "Formal", "Boots"];
-bool smallSelected = false;
-bool mediumSelected = false;
-bool largeSelected = false;
 List<File?> selectedImages = [];
 GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 class _AddPrductScreenState extends State<AddPrductScreen> {
-  @override
-  void dispose() {
-    print('dispose is called--------');
-    selectedImages.clear();
-    productNameController.clear();
-    productPriceController.clear();
-    productDescriptionController.clear();
-    counter = 0;
-    valueChoose = null;
-    super.dispose();
-  }
-
   void increment() {
     setState(() {
       counter++;
@@ -59,33 +43,6 @@ class _AddPrductScreenState extends State<AddPrductScreen> {
       }
     });
   }
-
-  void updateSelectedFilterChips(String chipText, bool isSelected) {
-    setState(() {
-      if (isSelected) {
-        selectedFilterChips.add(chipText);
-      } else {
-        selectedFilterChips.remove(chipText);
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    futureCategories = getCategories();
-  }
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   selectedImages.clear();
-  //   productNameController.clear();
-  //   productPriceController.clear();
-  //   productDescriptionController.clear();
-  //   counter = 0;
-  //   valueChoose = null;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -253,37 +210,3 @@ class _AddPrductScreenState extends State<AddPrductScreen> {
     );
   }
 }
-// FutureBuilder<List<dynamic>>(
-//                         future: futureCategories,
-//                         builder: (context, snapshot) {
-//                           if (snapshot.connectionState ==
-//                               ConnectionState.waiting) {
-//                             return const CircularProgressIndicator();
-//                           } else if (snapshot.hasError) {
-//                             return Text('Error ${snapshot.error}');
-//                           } else {
-//                             List<dynamic> listItem = snapshot.data!;
-//                             return DropdownButton(
-//                               dropdownColor: kWhite,
-//                               style: const TextStyle(color: kWhite),
-//                               hint: const Text("Choose Category"),
-//                               value: valueChoose,
-//                               items: listItem.map<DropdownMenuItem<String>>(
-//                                   (dynamic item) {
-//                                 return DropdownMenuItem<String>(
-//                                   value: item.name,
-//                                   child: Text(
-//                                     item.name,
-//                                     style: const TextStyle(color: kBlack),
-//                                   ),
-//                                 );
-//                               }).toList(),
-//                               onChanged: (newValue) {
-//                                 setState(() {
-//                                   valueChoose = newValue as String?;
-//                                 });
-//                               },
-//                             );
-//                           }
-//                         },
-//                       ),

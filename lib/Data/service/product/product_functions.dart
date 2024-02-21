@@ -5,8 +5,9 @@ import 'package:admin/Application/Presentation/utils/colors.dart';
 import 'package:admin/Data/service/auth/autherization_functions.dart';
 import 'package:admin/Data/service/category/category_functions.dart';
 import 'package:admin/Data/service/product/config.dart';
+import 'package:admin/Domain/models/product/edit%20product%20model/edit_product.dart';
 import 'package:admin/Domain/models/product/get%20product%20model/get_product_model.dart';
-import 'package:admin/Domain/models/product/product_model.dart';
+import 'package:admin/Domain/models/product/add%20product%20model/product_model.dart';
 //import 'package:http/http.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -99,6 +100,58 @@ Future<void> deleteProduct(String id, BuildContext context) async {
     }
   } catch (e) {
     print('Error in Delete Category $e');
+  }
+}
+
+Future<EditProductModel> editProduct(
+    List<File?> image,
+    String name,
+    int price,
+    String description,
+    int stock,
+    String category,
+    String authtoken,
+    String message,
+    BuildContext context) async {
+  EditProductModel editProductModel = EditProductModel(
+      category: "",
+      description: "",
+      id: "",
+      images: image,
+      name: "",
+      price: 0,
+      stock: 0);
+  try {
+    List<MultipartFile?> imageFiles = image.map((image) {
+      if (image != null) {
+        return MultipartFile.fromFileSync(image.path,
+            filename: image.path.split('/').last);
+      } else {
+        return null;
+      }
+    }).toList();
+    FormData formData = FormData.fromMap({
+      "image": imageFiles,
+      "name": name,
+      "price": price,
+      "description": description,
+      "stock": stock,
+      "category": category
+    });
+    final response = await Dio().patch(editProductUrl,
+        data: formData,
+        options: Options(headers: {'Authorization': 'Bearer $authtoken'}));
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print('Response -------message: ${response.data['message']}');
+      String responseMessage = response.data['message'] ?? "";
+      productShowSnackBar(context, responseMessage);
+      return EditProductModel.fromJson(response.data);
+    } else {
+      return editProductModel;
+    }
+  } catch (e) {
+    print('Error Editing product $e');
+    return editProductModel;
   }
 }
 

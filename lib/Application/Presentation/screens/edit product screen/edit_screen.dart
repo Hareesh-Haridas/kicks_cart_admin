@@ -1,9 +1,10 @@
-import 'package:admin/Application/Presentation/screens/Edit%20screen/widgets/appBar_widget.dart';
-import 'package:admin/Application/Presentation/screens/Edit%20screen/widgets/button_widgets.dart';
-import 'package:admin/Application/Presentation/screens/Edit%20screen/widgets/dropdown_widget.dart';
-import 'package:admin/Application/Presentation/screens/Edit%20screen/widgets/edit_image_widget.dart';
-import 'package:admin/Application/Presentation/screens/Edit%20screen/widgets/filter_chip_widget.dart';
-import 'package:admin/Application/Presentation/screens/Edit%20screen/widgets/text_widgets.dart';
+// import 'package:admin/Application/Presentation/screens/Edit%20screen/widgets/appBar_widget.dart';
+import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/appbar_widget.dart';
+import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/button_widgets.dart';
+import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/dropdown_widget.dart';
+import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/edit_image_widget.dart';
+import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/filter_chip_widget.dart';
+import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/text_widgets.dart';
 import 'package:admin/Application/Presentation/utils/colors.dart';
 import 'package:admin/Application/Presentation/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     return const Scaffold(
       backgroundColor: kWhite,
       resizeToAvoidBottomInset: false,
-      appBar: AppbarWidget(),
+      appBar: EditAppbarWidget(),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 15),
         child: SingleChildScrollView(
@@ -36,9 +37,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
               kHeight20,
               DescriptionField(),
               kHeight10,
-              EditSizeText(),
-              kHeight10,
-              SizeSelector(),
               kHeight20,
               EditStockAndChangeCategoryText(),
               kHeight10,
