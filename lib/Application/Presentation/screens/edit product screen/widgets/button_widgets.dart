@@ -75,7 +75,8 @@ class _DecreaseButtonState extends State<DecreaseButton> {
 }
 
 class Counter extends StatelessWidget {
-  const Counter({super.key});
+  final int? counter;
+  const Counter({super.key, this.counter});
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +86,7 @@ class Counter extends StatelessWidget {
       width: 40,
       decoration: BoxDecoration(border: Border.all()),
       child: Text(
-        "$eCounter",
+        counter.toString(),
         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
     );

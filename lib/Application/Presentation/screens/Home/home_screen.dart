@@ -70,8 +70,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 crossAxisCount: 2, childAspectRatio: 0.75),
                         itemBuilder: (context, index) {
                           String imageFileName = products[index].images[0];
+                          String image1 = products[index].images[0];
+                          String image2 = products[index].images[1];
+                          String image3 = products[index].images[2];
+                          String image4 = products[index].images[3];
                           print(imageFileName);
                           String imageUrl = '$productUrl/$imageFileName';
+                          String firstImage = '$productUrl/$image1';
+                          String secondImage = '$productUrl/$image2';
+                          String thirdImage = '$productUrl/$image3';
+                          String fourthImage = '$productUrl/$image4';
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
@@ -139,7 +147,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const EditProductScreen()));
+                                                        EditProductScreen(
+                                                          category:
+                                                              products[index]
+                                                                  .category,
+                                                          description:
+                                                              products[index]
+                                                                  .description,
+                                                          id: products[index]
+                                                              .id,
+                                                          name: products[index]
+                                                              .name,
+                                                          price: products[index]
+                                                              .price,
+                                                          stock: products[index]
+                                                              .stock,
+                                                          image1: image1,
+                                                          image2: image2,
+                                                          image3: image3,
+                                                          image4: image4,
+                                                        )));
                                           },
                                           icon: const Icon(Icons.edit))
                                     ],
