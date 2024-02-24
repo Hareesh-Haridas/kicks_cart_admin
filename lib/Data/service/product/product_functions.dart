@@ -111,7 +111,7 @@ Future<EditProductModel> editProduct(
     int stock,
     String category,
     String authtoken,
-    String message,
+    // String message,
     BuildContext context) async {
   EditProductModel editProductModel = EditProductModel(
       category: "",

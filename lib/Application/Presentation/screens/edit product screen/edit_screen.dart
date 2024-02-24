@@ -42,6 +42,7 @@ class EditProductScreen extends StatefulWidget {
 }
 
 List<File?> editSelectedImages = [];
+List<dynamic> images = [];
 
 class _EditProductScreenState extends State<EditProductScreen> {
   @override
@@ -52,6 +53,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
         TextEditingController(text: widget.price.toString());
     editProductDescriptionController =
         TextEditingController(text: widget.description);
+    images.add(widget.image1);
+    images.add(widget.image2);
+    images.add(widget.image3);
+    images.add(widget.image4);
   }
 
   @override
@@ -66,40 +71,40 @@ class _EditProductScreenState extends State<EditProductScreen> {
           child: Column(
             children: [
               kHeight30,
-              ImageAddWidget(
-                imageList: editSelectedImages,
-                onImageAdded: (List<File?> updatedImages) {
-                  setState(() {
-                    editSelectedImages = updatedImages;
-                  });
-                },
+              Container(
+                height: 150,
+                width: 260,
+                decoration: BoxDecoration(
+                  border: Border.all(color: kGrey),
+                ),
+                child: Image.network(images[0]),
               ),
-              kHeight20,
-              ImageAddWidget(
-                imageList: editSelectedImages,
-                onImageAdded: (List<File?> updatedImages) {
-                  setState(() {
-                    editSelectedImages = updatedImages;
-                  });
-                },
+              kHeight10,
+              Container(
+                height: 150,
+                width: 260,
+                decoration: BoxDecoration(
+                  border: Border.all(color: kGrey),
+                ),
+                child: Image.network(images[1]),
               ),
-              kHeight20,
-              ImageAddWidget(
-                imageList: editSelectedImages,
-                onImageAdded: (List<File?> updatedImages) {
-                  setState(() {
-                    editSelectedImages = updatedImages;
-                  });
-                },
+              kHeight10,
+              Container(
+                height: 150,
+                width: 260,
+                decoration: BoxDecoration(
+                  border: Border.all(color: kGrey),
+                ),
+                child: Image.network(images[2]),
               ),
-              kHeight20,
-              ImageAddWidget(
-                imageList: editSelectedImages,
-                onImageAdded: (List<File?> updatedImages) {
-                  setState(() {
-                    editSelectedImages = updatedImages;
-                  });
-                },
+              kHeight10,
+              Container(
+                height: 150,
+                width: 260,
+                decoration: BoxDecoration(
+                  border: Border.all(color: kGrey),
+                ),
+                child: Image.network(images[3]),
               ),
               kHeight20,
               const NameField(),

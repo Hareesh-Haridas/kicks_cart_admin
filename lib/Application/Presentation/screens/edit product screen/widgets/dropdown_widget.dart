@@ -13,12 +13,13 @@ class DropdownWidget extends StatefulWidget {
   State<DropdownWidget> createState() => _DropdownWidgetState();
 }
 
+String? editvaluechoose;
+
 class _DropdownWidgetState extends State<DropdownWidget> {
-  String? valuechoose;
   @override
   void initState() {
     super.initState();
-    valuechoose = widget.initialValue;
+    editvaluechoose = widget.initialValue;
   }
 
   @override
@@ -36,7 +37,7 @@ class _DropdownWidgetState extends State<DropdownWidget> {
                 dropdownColor: Colors.white,
                 style: const TextStyle(color: kWhite),
                 hint: const Text('Choose Category'),
-                value: valuechoose,
+                value: editvaluechoose,
                 items:
                     categories.map<DropdownMenuItem<String>>((BrandModel item) {
                   return DropdownMenuItem<String>(
@@ -48,7 +49,7 @@ class _DropdownWidgetState extends State<DropdownWidget> {
                 }).toList(),
                 onChanged: (newValue) {
                   setState(() {
-                    valuechoose = newValue as String?;
+                    editvaluechoose = newValue as String?;
                   });
                 });
           }

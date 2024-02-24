@@ -4,6 +4,7 @@ import 'package:admin/Application/Presentation/screens/Home/widgets/kicks_kart_t
 import 'package:admin/Application/Presentation/screens/Home/widgets/name_and_logout_widget.dart';
 import 'package:admin/Application/Presentation/screens/Home/widgets/product_list.dart';
 import 'package:admin/Application/Presentation/screens/Home/widgets/search_widget.dart';
+import 'package:admin/Application/Presentation/screens/product%20detail%20screen/product_detail_screen.dart';
 import 'package:admin/Application/Presentation/utils/colors.dart';
 import 'package:admin/Application/Presentation/utils/constants.dart';
 import 'package:admin/Data/service/auth/autherization_functions.dart';
@@ -82,115 +83,137 @@ class _HomeScreenState extends State<HomeScreen> {
                           String fourthImage = '$productUrl/$image4';
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              height: 300,
-                              decoration: BoxDecoration(
-                                border: Border.all(),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      IconButton(
-                                        onPressed: () async {
-                                          showDialog(
-                                              context: context,
-                                              builder: (_) => AlertDialog(
-                                                    title: const Text(
-                                                        'Delete Product'),
-                                                    content: const Text(
-                                                        'Are You Sure You Want To Delete This Product?'),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                        child: const Text(
-                                                            'Cancel'),
-                                                      ),
-                                                      TextButton(
-                                                          onPressed: () async {
-                                                            print(
-                                                                products[index]
-                                                                    .id);
-                                                            await deleteProduct(
-                                                                    products[
-                                                                            index]
-                                                                        .id,
-                                                                    context)
-                                                                .whenComplete(
-                                                                    () => context
-                                                                        .read<
-                                                                            ProductBloc>()
-                                                                        .add(
-                                                                            FetchProductsEvent()));
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ProductDetailScreen(
+                                          category: products[index].category,
+                                          description:
+                                              products[index].description,
+                                          name: products[index].name,
+                                          price: products[index].price,
+                                          stock: products[index].stock,
+                                          image1: firstImage,
+                                          image2: secondImage,
+                                          image3: thirdImage,
+                                          image4: fourthImage,
+                                        )));
+                              },
+                              child: Container(
+                                height: 300,
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        IconButton(
+                                          onPressed: () async {
+                                            showDialog(
+                                                context: context,
+                                                builder: (_) => AlertDialog(
+                                                      title: const Text(
+                                                          'Delete Product'),
+                                                      content: const Text(
+                                                          'Are You Sure You Want To Delete This Product?'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
                                                             Navigator.of(
                                                                     context)
                                                                 .pop();
                                                           },
                                                           child: const Text(
-                                                              "Delete"))
-                                                    ],
-                                                  ));
-                                        },
-                                        icon: const Icon(
-                                          Icons.delete_outlined,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                      IconButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        EditProductScreen(
-                                                          category:
-                                                              products[index]
-                                                                  .category,
-                                                          description:
-                                                              products[index]
-                                                                  .description,
-                                                          id: products[index]
-                                                              .id,
-                                                          name: products[index]
-                                                              .name,
-                                                          price: products[index]
-                                                              .price,
-                                                          stock: products[index]
-                                                              .stock,
-                                                          image1: image1,
-                                                          image2: image2,
-                                                          image3: image3,
-                                                          image4: image4,
-                                                        )));
+                                                              'Cancel'),
+                                                        ),
+                                                        TextButton(
+                                                            onPressed:
+                                                                () async {
+                                                              print(products[
+                                                                      index]
+                                                                  .id);
+                                                              await deleteProduct(
+                                                                      products[
+                                                                              index]
+                                                                          .id,
+                                                                      context)
+                                                                  .whenComplete(
+                                                                      () => context
+                                                                          .read<
+                                                                              ProductBloc>()
+                                                                          .add(
+                                                                              FetchProductsEvent()));
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                            child: const Text(
+                                                                "Delete"))
+                                                      ],
+                                                    ));
                                           },
-                                          icon: const Icon(Icons.edit))
-                                    ],
-                                  ),
-                                  Image.network(
-                                    imageUrl,
-                                    fit: BoxFit.cover,
-                                    height: 90,
-                                    width: 150,
-                                  ),
-                                  Text(
-                                    products[index].name,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w300,
-                                        fontSize: 18),
-                                  ),
-                                  kHeight10,
-                                  Text(
-                                    products[index].price.toString(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20),
-                                  )
-                                ],
+                                          icon: const Icon(
+                                            Icons.delete_outlined,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                        IconButton(
+                                            onPressed: () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          EditProductScreen(
+                                                            category:
+                                                                products[index]
+                                                                    .category,
+                                                            description:
+                                                                products[index]
+                                                                    .description,
+                                                            id: products[index]
+                                                                .id,
+                                                            name:
+                                                                products[index]
+                                                                    .name,
+                                                            price:
+                                                                products[index]
+                                                                    .price,
+                                                            stock:
+                                                                products[index]
+                                                                    .stock,
+                                                            image1: firstImage,
+                                                            image2: secondImage,
+                                                            image3: thirdImage,
+                                                            image4: fourthImage,
+                                                          )));
+                                            },
+                                            icon: const Icon(Icons.edit))
+                                      ],
+                                    ),
+                                    Image.network(
+                                      imageUrl,
+                                      fit: BoxFit.cover,
+                                      height: 90,
+                                      width: 150,
+                                    ),
+                                    Text(
+                                      products[index].name,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w300,
+                                          fontSize: 18),
+                                    ),
+                                    kHeight10,
+                                    Text(
+                                      products[index].price.toString(),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           );

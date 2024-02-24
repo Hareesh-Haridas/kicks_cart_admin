@@ -1,4 +1,10 @@
+import 'package:admin/Application/Presentation/screens/Add%20product%20screen/product_add_screen.dart';
+import 'package:admin/Application/Presentation/screens/edit%20product%20screen/edit_screen.dart';
+import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/dropdown_widget.dart';
+import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/text_widgets.dart';
 import 'package:admin/Application/Presentation/utils/colors.dart';
+import 'package:admin/Data/service/auth/autherization_functions.dart';
+import 'package:admin/Data/service/product/product_functions.dart';
 import 'package:flutter/material.dart';
 
 class SaveChangesButton extends StatelessWidget {
@@ -13,7 +19,17 @@ class SaveChangesButton extends StatelessWidget {
       children: [
         Expanded(
           child: MaterialButton(
-            onPressed: () {},
+            onPressed: () async {
+              await editProduct(
+                  editSelectedImages,
+                  editProductNameController.text,
+                  editProductPriceController.text as int,
+                  editProductDescriptionController.text,
+                  eCounter,
+                  editvaluechoose!,
+                  globalToken,
+                  context);
+            },
             color: kBlueGray,
             textColor: kWhite,
             shape:
