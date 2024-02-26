@@ -12,6 +12,8 @@ import 'package:admin/Application/Presentation/screens/edit%20product%20screen/w
 import 'package:admin/Application/Presentation/utils/colors.dart';
 import 'package:admin/Application/Presentation/utils/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:image_picker/image_picker.dart';
 
 class EditProductScreen extends StatefulWidget {
   final dynamic image1;
@@ -43,8 +45,19 @@ class EditProductScreen extends StatefulWidget {
 
 List<File?> editSelectedImages = [];
 List<dynamic> images = [];
+final ImagePicker imagePicker = ImagePicker();
+late String editId;
 
 class _EditProductScreenState extends State<EditProductScreen> {
+  Future<void> pickImage(int index) async {
+    final pickedFile = await imagePicker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        editSelectedImages[index] = File(pickedFile.path);
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -57,6 +70,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
     images.add(widget.image2);
     images.add(widget.image3);
     images.add(widget.image4);
+    editSelectedImages = List.generate(4, (index) {
+      if (images.isNotEmpty && images.length > index) {
+        return File(images[index]);
+      }
+      return null;
+    });
+    editId = widget.id;
   }
 
   @override
@@ -71,41 +91,102 @@ class _EditProductScreenState extends State<EditProductScreen> {
           child: Column(
             children: [
               kHeight30,
-              Container(
-                height: 150,
-                width: 260,
-                decoration: BoxDecoration(
-                  border: Border.all(color: kGrey),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Container(
+              //       height: 150,
+              //       width: 260,
+              //       decoration: BoxDecoration(
+              //         border: Border.all(color: kGrey),
+              //       ),
+              //       child: Image.network(images[0]),
+              //     ),
+              //     IconButton(
+              //         onPressed: () {},
+              //         icon: const Icon(
+              //           Icons.edit,
+              //           color: kBlue,
+              //         ))
+              //   ],
+              // ),
+              // kHeight10,
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Container(
+              //       height: 150,
+              //       width: 260,
+              //       decoration: BoxDecoration(
+              //         border: Border.all(color: kGrey),
+              //       ),
+              //       child: Image.network(images[1]),
+              //     ),
+              //     IconButton(
+              //         onPressed: () {},
+              //         icon: const Icon(Icons.edit, color: kBlue))
+              //   ],
+              // ),
+              // kHeight10,
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Container(
+              //       height: 150,
+              //       width: 260,
+              //       decoration: BoxDecoration(
+              //         border: Border.all(color: kGrey),
+              //       ),
+              //       child: Image.network(images[2]),
+              //     ),
+              //     IconButton(
+              //         onPressed: () {},
+              //         icon: const Icon(Icons.edit, color: kBlue))
+              //   ],
+              // ),
+              // kHeight10,
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Container(
+              //       height: 150,
+              //       width: 260,
+              //       decoration: BoxDecoration(
+              //         border: Border.all(color: kGrey),
+              //       ),
+              //       child: Image.network(images[3]),
+              //     ),
+              //     IconButton(
+              //         onPressed: () {},
+              //         icon: const Icon(Icons.edit, color: kBlue))
+              //   ],
+              // ),
+              for (int i = 0; i < 4; i++)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 150,
+                      width: 260,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: kGrey),
+                      ),
+                      child: editSelectedImages.isNotEmpty &&
+                              editSelectedImages[i]!.existsSync()
+                          ? Image.file(editSelectedImages[i]!)
+                          : Image.network(images[i]),
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        await pickImage(i);
+                      },
+                      icon: Icon(
+                        Icons.edit,
+                        color: kBlue,
+                      ),
+                    ),
+                  ],
                 ),
-                child: Image.network(images[0]),
-              ),
-              kHeight10,
-              Container(
-                height: 150,
-                width: 260,
-                decoration: BoxDecoration(
-                  border: Border.all(color: kGrey),
-                ),
-                child: Image.network(images[1]),
-              ),
-              kHeight10,
-              Container(
-                height: 150,
-                width: 260,
-                decoration: BoxDecoration(
-                  border: Border.all(color: kGrey),
-                ),
-                child: Image.network(images[2]),
-              ),
-              kHeight10,
-              Container(
-                height: 150,
-                width: 260,
-                decoration: BoxDecoration(
-                  border: Border.all(color: kGrey),
-                ),
-                child: Image.network(images[3]),
-              ),
               kHeight20,
               const NameField(),
               kHeight20,

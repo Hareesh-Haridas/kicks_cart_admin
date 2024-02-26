@@ -111,8 +111,8 @@ Future<EditProductModel> editProduct(
     int stock,
     String category,
     String authtoken,
-    // String message,
-    BuildContext context) async {
+    BuildContext context,
+    String id) async {
   EditProductModel editProductModel = EditProductModel(
       category: "",
       description: "",
@@ -136,7 +136,8 @@ Future<EditProductModel> editProduct(
       "price": price,
       "description": description,
       "stock": stock,
-      "category": category
+      "category": category,
+      "id": id,
     });
     final response = await Dio().patch(editProductUrl,
         data: formData,
@@ -145,6 +146,7 @@ Future<EditProductModel> editProduct(
       print('Response -------message: ${response.data['message']}');
       String responseMessage = response.data['message'] ?? "";
       productShowSnackBar(context, responseMessage);
+      Navigator.of(context).pop();
       return EditProductModel.fromJson(response.data);
     } else {
       return editProductModel;

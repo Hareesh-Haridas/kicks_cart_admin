@@ -20,15 +20,17 @@ class SaveChangesButton extends StatelessWidget {
         Expanded(
           child: MaterialButton(
             onPressed: () async {
+              int parsedPrice = int.parse(editProductPriceController.text);
               await editProduct(
                   editSelectedImages,
                   editProductNameController.text,
-                  editProductPriceController.text as int,
+                  parsedPrice,
                   editProductDescriptionController.text,
                   eCounter,
                   editvaluechoose!,
                   globalToken,
-                  context);
+                  context,
+                  editId);
             },
             color: kBlueGray,
             textColor: kWhite,

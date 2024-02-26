@@ -58,8 +58,7 @@ class _DescriptionFieldState extends State<DescriptionField> {
     return TextFormField(
       controller: editProductDescriptionController,
       decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Nike sports shoe for everyday use'),
+          border: OutlineInputBorder(), labelText: 'Enter Product Description'),
     );
   }
 }
@@ -79,6 +78,7 @@ class _PriceFieldState extends State<PriceField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: TextInputType.number,
       controller: editProductPriceController,
       decoration: const InputDecoration(
           border: OutlineInputBorder(), labelText: 'Enter Product Price'),
