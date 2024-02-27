@@ -1,3 +1,4 @@
+import 'package:admin/Application/Business%20logic/product/bloc/bloc/product_bloc.dart';
 import 'package:admin/Application/Presentation/screens/Add%20product%20screen/product_add_screen.dart';
 import 'package:admin/Application/Presentation/screens/edit%20product%20screen/edit_screen.dart';
 import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/dropdown_widget.dart';
@@ -6,6 +7,7 @@ import 'package:admin/Application/Presentation/utils/colors.dart';
 import 'package:admin/Data/service/auth/autherization_functions.dart';
 import 'package:admin/Data/service/product/product_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SaveChangesButton extends StatelessWidget {
   const SaveChangesButton({
@@ -20,17 +22,21 @@ class SaveChangesButton extends StatelessWidget {
         Expanded(
           child: MaterialButton(
             onPressed: () async {
+              print('  edit selected images------$editSelectedImages');
+              print('edit stocks----$eCounter');
               int parsedPrice = int.parse(editProductPriceController.text);
               await editProduct(
-                  editSelectedImages,
-                  editProductNameController.text,
-                  parsedPrice,
-                  editProductDescriptionController.text,
-                  eCounter,
-                  editvaluechoose!,
-                  globalToken,
-                  context,
-                  editId);
+                      editSelectedImages,
+                      editProductNameController.text,
+                      parsedPrice,
+                      editProductDescriptionController.text,
+                      eCounter,
+                      editvaluechoose!,
+                      globalToken,
+                      context,
+                      editId)
+                  .whenComplete(() =>
+                      context.read<ProductBloc>().add(FetchProductsEvent()));
             },
             color: kBlueGray,
             textColor: kWhite,

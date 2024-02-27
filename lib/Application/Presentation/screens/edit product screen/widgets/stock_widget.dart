@@ -1,3 +1,4 @@
+import 'package:admin/Application/Presentation/screens/edit%20product%20screen/edit_screen.dart';
 import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/button_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class CounterContainer extends StatefulWidget {
 }
 
 class _CounterContainerState extends State<CounterContainer> {
-  int eCounter = 0;
+  int eCounter=0;
   @override
   void initState() {
     super.initState();

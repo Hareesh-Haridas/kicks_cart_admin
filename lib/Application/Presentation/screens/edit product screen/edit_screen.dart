@@ -47,6 +47,7 @@ List<File?> editSelectedImages = [];
 List<dynamic> images = [];
 final ImagePicker imagePicker = ImagePicker();
 late String editId;
+late int editStock;
 
 class _EditProductScreenState extends State<EditProductScreen> {
   Future<void> pickImage(int index) async {
@@ -77,6 +78,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
       return null;
     });
     editId = widget.id;
+    editStock = widget.stock;
+    print('INITIAL STOCK====${widget.stock}');
   }
 
   @override
