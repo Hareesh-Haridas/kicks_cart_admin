@@ -1,28 +1,42 @@
 import 'package:admin/Application/Business%20logic/product/bloc/bloc/product_bloc.dart';
+import 'package:admin/Application/Presentation/screens/Home/widgets/product_list.dart';
+import 'package:admin/Data/service/product/product_functions.dart';
 import 'package:admin/Domain/models/product/get%20product%20model/get_product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SearchWidget extends StatelessWidget {
-  SearchWidget({
+class SearchWidget extends StatefulWidget {
+  final BuildContext context;
+  final Function(String) onSearch;
+  const SearchWidget({
     super.key,
+    required this.onSearch,
+    required this.context,
   });
+
+  @override
+  State<SearchWidget> createState() => _SearchWidgetState();
+}
+
+class _SearchWidgetState extends State<SearchWidget> {
   TextEditingController searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: TextFormField(
         controller: searchController,
-        onChanged: (value) {
-          context.read<ProductBloc>().add(SearchProductsEvent(query: value));
+        onChanged: (query) {
+          widget.onSearch(query);
         },
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.search),
           suffixIcon: IconButton(
               onPressed: () {
                 searchController.clear();
-                context.read<ProductBloc>().add(SearchProductsEvent(query: ""));
+                widget.onSearch('');
+                widget.context.read<ProductBloc>().add(FetchProductsEvent());
               },
               icon: const Icon(Icons.clear)),
           border: OutlineInputBorder(
@@ -33,16 +47,4 @@ class SearchWidget extends StatelessWidget {
       ),
     );
   }
-}
-
-//List<String> productNames = [];
-
-List<GetProductModel> products = [];
-
-List<GetProductModel> filterProducts(String query) {
-  print(products);
-  return products
-      .where(
-          (product) => product.name.toLowerCase().contains(query.toLowerCase()))
-      .toList();
 }

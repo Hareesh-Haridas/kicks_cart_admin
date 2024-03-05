@@ -5,3 +5,4 @@ const addProductUrl = '$baseUrl/admin/addProduct';
 const getProductUrl = '$baseUrl/admin/getProduct';
 const deleteProductUrl = '$baseUrl/admin/deleteProduct';
 const editProductUrl = '$baseUrl/admin/editProduct';
+const searchProductUrl = '$baseUrl/admin/getSearchedProducts';

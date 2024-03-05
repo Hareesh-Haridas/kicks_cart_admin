@@ -11,7 +11,7 @@ class CounterContainer extends StatefulWidget {
 }
 
 class _CounterContainerState extends State<CounterContainer> {
-  int eCounter=0;
+  int eCounter = 0;
   @override
   void initState() {
     super.initState();

@@ -31,3 +31,23 @@ class ErrorProductState extends ProductState {
 
 }
 
+
+class SearchProductsState extends ProductState {
+
+  final List<GetProductModel>? searchResults;
+
+
+  SearchProductsState({required this.searchResults});
+
+}
+
+
+class ErrorSearchProductState extends ProductState {
+
+  final String error;
+
+
+  ErrorSearchProductState({required this.error});
+
+}
+

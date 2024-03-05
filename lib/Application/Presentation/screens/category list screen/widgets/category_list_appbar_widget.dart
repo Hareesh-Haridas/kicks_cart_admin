@@ -12,7 +12,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Colors.blueGrey[900],
       title: const Text(
-        "Categories",
+        "Brands",
         style: TextStyle(color: Colors.white),
       ),
       centerTitle: true,

@@ -5,7 +5,6 @@ import 'package:admin/Application/Presentation/screens/edit%20product%20screen/w
 import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/button_widgets.dart';
 import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/dropdown_widget.dart';
 import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/edit_image_widget.dart';
-import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/filter_chip_widget.dart';
 import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/image_widgets.dart';
 import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/stock_widget.dart';
 import 'package:admin/Application/Presentation/screens/edit%20product%20screen/widgets/text_widgets.dart';

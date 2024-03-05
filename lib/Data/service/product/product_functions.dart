@@ -157,6 +157,47 @@ Future<EditProductModel> editProduct(
   }
 }
 
+Future<List<GetProductModel>> searchProducts(String letters) async {
+  try {
+    final response = await Dio().get(searchProductUrl,
+        options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      List<GetProductModel> products = (response.data['data'] as List)
+          .map((json) => GetProductModel.fromJson(json))
+          .toList();
+      return products;
+    } else {
+      print('Failed to Fetch Products');
+      return [];
+    }
+  } catch (e) {
+    print('Error in search product $e');
+    return [];
+  }
+}
+
+Future<List<GetProductModel>> getSearchedProducts(String query) async {
+  print('SEARCH PRODUCT FUNCTION CALLED///////');
+  try {
+    final response = await Dio().get('$searchProductUrl/$query',
+        options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
+    print('Search Result-------${response.data}');
+    bool status = response.data['status'];
+    if (status) {
+      List<GetProductModel> products = (response.data['data'] as List)
+          .map((json) => GetProductModel.fromJson(json))
+          .toList();
+      return products;
+    } else {
+      print('failed to search products');
+      return [];
+    }
+  } catch (e) {
+    print('Error Searching products $e');
+    return [];
+  }
+}
+
 void productShowSnackBar(BuildContext context, String message) {
   print('snackbar is called');
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(

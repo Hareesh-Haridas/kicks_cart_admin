@@ -49,7 +49,7 @@ class BottomNav extends StatelessWidget {
             ),
             GButton(
               icon: Icons.category_outlined,
-              text: 'Categories',
+              text: 'Brands',
               iconColor: kWhite,
             ),
             GButton(

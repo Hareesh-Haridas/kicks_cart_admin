@@ -24,6 +24,9 @@ part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
+  List<GetProductModel>? allProducts;
+
+
   ProductBloc() : super(LoadingProductState()) {
 
     on<FetchProductsEvent>((event, emit) async {
@@ -31,6 +34,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       try {
 
         List<GetProductModel> products = await getProducts();
+
+
+        allProducts = products;
 
 
         emit(LoadededProductState(products));
@@ -48,14 +54,16 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
       try {
 
-        List<GetProductModel> searchedProducts = filterProducts(event.query);
+        List<GetProductModel> searchResults =
+
+            await getSearchedProducts(event.query);
 
 
-        emit(LoadededProductState(searchedProducts));
+        emit(SearchProductsState(searchResults: searchResults));
 
       } catch (e) {
 
-        emit(ErrorProductState('Error searching Products $e'));
+        emit(ErrorProductState('Error Searching Products $e'));
 
       }
 
