@@ -15,7 +15,7 @@ class EditStockAndChangeCategoryText extends StatelessWidget {
           style: TextStyle(fontSize: 20),
         ),
         Text(
-          "Change Category",
+          "Change Brand",
           style: TextStyle(fontSize: 20),
         )
       ],

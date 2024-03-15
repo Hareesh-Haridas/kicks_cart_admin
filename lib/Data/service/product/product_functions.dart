@@ -198,6 +198,36 @@ Future<List<GetProductModel>> getSearchedProducts(String query) async {
   }
 }
 
+Future<GetProductModel> fetchProductDetail(String id) async {
+  try {
+    final response = await Dio().get('$fetchProductUrl/$id',
+        options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      GetProductModel getProductModel =
+          GetProductModel.fromJson(response.data['data']);
+      return getProductModel;
+    } else {
+      return GetProductModel(
+          id: '',
+          images: [],
+          name: "",
+          price: 0,
+          description: "",
+          stock: 0,
+          category: "");
+    }
+  } catch (e) {
+    return GetProductModel(
+        id: '',
+        images: [],
+        name: "",
+        price: 0,
+        description: "",
+        stock: 0,
+        category: "");
+  }
+}
+
 void productShowSnackBar(BuildContext context, String message) {
   print('snackbar is called');
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(

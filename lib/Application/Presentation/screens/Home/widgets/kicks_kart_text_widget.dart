@@ -1,3 +1,4 @@
+import 'package:admin/Application/Presentation/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,7 +10,6 @@ class KicksCartText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Text(
           'Kicks Cart',

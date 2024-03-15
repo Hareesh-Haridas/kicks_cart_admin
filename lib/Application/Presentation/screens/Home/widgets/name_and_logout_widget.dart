@@ -9,18 +9,19 @@ class NameAndLogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const KicksCartText(),
-        const SizedBox(
-          width: 150,
-        ),
-        IconButton(
-            onPressed: () {
-              logOut(context);
-            },
-            icon: const Icon(Icons.logout)),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const KicksCartText(),
+          IconButton(
+              onPressed: () {
+                logOut(context);
+              },
+              icon: const Icon(Icons.logout)),
+        ],
+      ),
     );
   }
 }

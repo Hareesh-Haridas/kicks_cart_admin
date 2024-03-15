@@ -31,12 +31,12 @@ class _DropdownWidgetState extends State<DropdownWidget> {
         } else if (state is LoadedCategoryState) {
           List<BrandModel> categories = state.categories;
           if (categories.isEmpty) {
-            return const Text('No categories available');
+            return const Text('No Brands available');
           } else {
             return DropdownButton(
                 dropdownColor: Colors.white,
                 style: const TextStyle(color: kWhite),
-                hint: const Text('Choose Category'),
+                hint: const Text('Choose Brand'),
                 value: editvaluechoose,
                 items:
                     categories.map<DropdownMenuItem<String>>((BrandModel item) {
