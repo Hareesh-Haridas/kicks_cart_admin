@@ -24,7 +24,10 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
 
       try {
 
-        List<BrandModel> categories = await getCategories();
+        BrandService brandService = BrandService();
+
+
+        List<BrandModel> categories = await brandService.getCategories();
 
 
         emit(LoadedCategoryState(categories));

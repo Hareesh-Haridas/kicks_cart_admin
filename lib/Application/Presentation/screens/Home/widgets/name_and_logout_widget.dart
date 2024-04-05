@@ -17,7 +17,8 @@ class NameAndLogoutButton extends StatelessWidget {
           const KicksCartText(),
           IconButton(
               onPressed: () {
-                logOut(context);
+                AuthService authService = AuthService();
+                authService.logOut(context);
               },
               icon: const Icon(Icons.logout)),
         ],

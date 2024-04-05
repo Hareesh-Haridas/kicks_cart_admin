@@ -10,44 +10,47 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 String globalToken = "";
 String loginMessage = "";
-Future<void> loginUser(BuildContext context) async {
-  try {
-    if (emailComtroller.text.isNotEmpty && passwordController.text.isNotEmpty) {
-      var regBody = {
-        "email": emailComtroller.text,
-        "password": passwordController.text
-      };
-      var response = await http.post(Uri.parse(loginUrl),
-          headers: {"Content-Type": "application/json"},
-          body: jsonEncode(regBody));
 
-      if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.body);
-        LoginResponse loginResponse = LoginResponse.fromJson(jsonResponse);
-        // bool statusMessage = jsonResponse['status'] ?? false;
-        print(loginResponse.status);
-        print(loginResponse.message);
-        // loginMessage = jsonResponse['message'] ?? "";
-        // print(loginMessage);
-        if (loginResponse.status) {
-          String? authToken = loginResponse.token;
-          saveAuthToken(authToken!);
-          globalToken = (await getAuthToken())!;
-          Navigator.pushReplacement(
-              context, MaterialPageRoute(builder: (context) => RootPage()));
+class AuthService {
+  Future<void> loginUser(BuildContext context) async {
+    try {
+      if (emailComtroller.text.isNotEmpty &&
+          passwordController.text.isNotEmpty) {
+        var regBody = {
+          "email": emailComtroller.text,
+          "password": passwordController.text
+        };
+        var response = await http.post(Uri.parse(loginUrl),
+            headers: {"Content-Type": "application/json"},
+            body: jsonEncode(regBody));
+
+        if (response.statusCode == 200) {
+          var jsonResponse = jsonDecode(response.body);
+          LoginResponse loginResponse = LoginResponse.fromJson(jsonResponse);
+
+          if (loginResponse.status) {
+            String? authToken = loginResponse.token;
+            saveAuthToken(authToken!);
+            globalToken = (await getAuthToken())!;
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => RootPage()));
+          } else {
+            showSnackBar(context, loginResponse.message);
+          }
         } else {
-          showSnackBar(context, loginResponse.message);
+          showSnackBar(
+              context, 'An error occurred during login. Please try again.');
         }
-        // print(jsonResponse);
-      } else {
-        print('HTTP Status Code: ${response.statusCode}');
-        showSnackBar(
-            context, 'An error occurred during login. Please try again.');
       }
+    } catch (error) {
+      showSnackBar(context, 'An unexpected error occurred during login');
     }
-  } catch (error) {
-    print('Error during login: $error');
-    showSnackBar(context, 'An unexpected error occurred during login');
+  }
+
+  Future<void> logOut(BuildContext context) async {
+    await clearAuthToken();
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 }
 
@@ -63,12 +66,6 @@ Future<void> saveAuthToken(String token) async {
 Future<String?> getAuthToken() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   return prefs.getString("auth_token");
-}
-
-Future<void> logOut(BuildContext context) async {
-  await clearAuthToken();
-  Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => LoginScreen()));
 }
 
 Future<void> clearAuthToken() async {

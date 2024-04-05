@@ -7,47 +7,64 @@ import 'package:admin/Data/service/product/product_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddProductButton extends StatelessWidget {
+class AddProductButton extends StatefulWidget {
   final BuildContext contexts;
   const AddProductButton({super.key, required this.contexts});
 
   @override
+  State<AddProductButton> createState() => _AddProductButtonState();
+}
+
+class _AddProductButtonState extends State<AddProductButton> {
+  bool loading = false;
+  @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          child: MaterialButton(
-            onPressed: () async {
-              if (formKey.currentState!.validate()) {
-                await addProduct(
-                        selectedImages,
-                        productNameController.text,
-                        int.parse(productPriceController.text),
-                        productDescriptionController.text,
-                        counter,
-                        valueChoose!,
-                        authToken!,
-                        "",
-                        contexts)
-                    .whenComplete(() =>
-                        context.read<ProductBloc>().add(FetchProductsEvent()));
-              }
-            },
-            color: kBlueGray,
-            textColor: kWhite,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            height: 50,
-            child: const Text(
-              "Add this Product",
-              style: TextStyle(
-                fontSize: 20,
+    return loading
+        ? const CircularProgressIndicator()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: MaterialButton(
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      setState(() {
+                        loading = true;
+                      });
+                      ProductService productService = ProductService();
+                      await productService
+                          .addProduct(
+                              selectedImages,
+                              productNameController.text,
+                              int.parse(productPriceController.text),
+                              productDescriptionController.text,
+                              counter,
+                              valueChoose!,
+                              authToken!,
+                              "",
+                              widget.contexts)
+                          .whenComplete(() {
+                        setState(() {
+                          loading = false;
+                        });
+                        context.read<ProductBloc>().add(FetchProductsEvent());
+                      });
+                    }
+                  },
+                  color: kBlueGray,
+                  textColor: kWhite,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  height: 50,
+                  child: const Text(
+                    "Add this Product",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
-      ],
-    );
+            ],
+          );
   }
 }

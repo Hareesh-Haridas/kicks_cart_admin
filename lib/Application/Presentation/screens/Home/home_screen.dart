@@ -1,17 +1,16 @@
 import 'package:admin/Application/Business%20logic/product/bloc/bloc/product_bloc.dart';
 import 'package:admin/Application/Presentation/screens/edit%20product%20screen/edit_screen.dart';
-import 'package:admin/Application/Presentation/screens/Home/widgets/kicks_kart_text_widget.dart';
+
 import 'package:admin/Application/Presentation/screens/Home/widgets/name_and_logout_widget.dart';
-import 'package:admin/Application/Presentation/screens/Home/widgets/product_list.dart';
+
 import 'package:admin/Application/Presentation/screens/Home/widgets/search_widget.dart';
 import 'package:admin/Application/Presentation/screens/product%20detail%20screen/product_detail_screen.dart';
 import 'package:admin/Application/Presentation/utils/colors.dart';
 import 'package:admin/Application/Presentation/utils/constants.dart';
-import 'package:admin/Data/service/auth/autherization_functions.dart';
+
 import 'package:admin/Data/service/product/config.dart';
 import 'package:admin/Data/service/product/product_functions.dart';
 import 'package:admin/Domain/models/product/get%20product%20model/get_product_model.dart';
-import 'package:admin/Domain/models/product/add%20product%20model/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -135,7 +134,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 print(products[
                                                                         index]
                                                                     .id);
-                                                                await deleteProduct(
+                                                                ProductService
+                                                                    productService =
+                                                                    ProductService();
+                                                                await productService
+                                                                    .deleteProduct(
                                                                         products[index]
                                                                             .id,
                                                                         context)
@@ -204,18 +207,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                         height: 90,
                                         width: 150,
                                       ),
-                                      Text(
-                                        products[index].name,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.w300,
-                                            fontSize: 18),
+                                      Expanded(
+                                        child: Text(
+                                          products[index].name,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.w300,
+                                              fontSize: 15),
+                                        ),
                                       ),
-                                      kHeight10,
-                                      Text(
-                                        products[index].price.toString(),
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
+                                      // kHeight10,
+                                      Expanded(
+                                        child: Text(
+                                          '₹${products[index].price.toString()}',
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20),
+                                        ),
                                       )
                                     ],
                                   ),
@@ -298,7 +305,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 print(searchResults[
                                                                         index]
                                                                     .id);
-                                                                await deleteProduct(
+                                                                ProductService
+                                                                    productService =
+                                                                    ProductService();
+                                                                await productService
+                                                                    .deleteProduct(
                                                                         searchResults[index]
                                                                             .id,
                                                                         context)

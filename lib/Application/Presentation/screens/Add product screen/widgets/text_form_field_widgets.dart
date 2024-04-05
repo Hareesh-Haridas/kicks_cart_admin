@@ -16,6 +16,7 @@ class _ProductDescriptionWidgetState extends State<ProductDescriptionWidget> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: productDescriptionController,
       decoration: const InputDecoration(
           border: OutlineInputBorder(), labelText: 'Product Description'),
@@ -44,6 +45,7 @@ class _ProductPriceWidgetState extends State<ProductPriceWidget> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: productPriceController,
       keyboardType: TextInputType.number,
       decoration: const InputDecoration(
@@ -74,6 +76,7 @@ class _ProductNameWidgetState extends State<ProductNameWidget> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: productNameController,
       decoration: const InputDecoration(
           border: OutlineInputBorder(), labelText: 'Product Name'),

@@ -33,7 +33,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   void initState() {
     super.initState();
-    productDetailFuture = fetchProductDetail(widget.productId);
+    ProductService productService = ProductService();
+    productDetailFuture = productService.fetchProductDetail(widget.productId);
   }
 
   @override

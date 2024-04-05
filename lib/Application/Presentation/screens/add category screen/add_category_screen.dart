@@ -23,6 +23,7 @@ TextEditingController brandNameController = TextEditingController();
 File? image;
 bool showSpinner = false;
 String? authToken = "";
+bool loading = false;
 
 class _AddCategoryScreenState extends State<AddCategoryScreen> {
   GlobalKey<FormState> brandKey = GlobalKey<FormState>();
@@ -98,6 +99,7 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                     children: [
                       Expanded(
                         child: TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           controller: brandNameController,
                           decoration: const InputDecoration(
                               border: OutlineInputBorder(),
@@ -116,28 +118,41 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            authToken = await getAuthToken();
-                            if (brandKey.currentState!.validate()) {
-                              if (image != null) {
-                                await addBrand(brandNameController.text, image!,
-                                        authToken!, context)
-                                    .whenComplete(() => context
-                                        .read<CategoryBloc>()
-                                        .add(FetchCategoriesEvent()));
-                              }
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: kBlueGray),
-                          child: const Text(
-                            'Submit',
-                            style: TextStyle(color: kWhite, fontSize: 18),
-                          ),
-                        ),
-                      )
+                      loading
+                          ? const CircularProgressIndicator()
+                          : Expanded(
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  setState(() {
+                                    loading = true;
+                                  });
+                                  if (brandKey.currentState!.validate()) {
+                                    if (image != null) {
+                                      BrandService brandService =
+                                          BrandService();
+                                      await brandService
+                                          .addBrand(brandNameController.text,
+                                              image!, authToken!, context)
+                                          .whenComplete(() {
+                                        setState(() {
+                                          loading = false;
+                                        });
+
+                                        context
+                                            .read<CategoryBloc>()
+                                            .add(FetchCategoriesEvent());
+                                      });
+                                    }
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: kBlueGray),
+                                child: const Text(
+                                  'Submit',
+                                  style: TextStyle(color: kWhite, fontSize: 18),
+                                ),
+                              ),
+                            )
                     ],
                   )
                 ],

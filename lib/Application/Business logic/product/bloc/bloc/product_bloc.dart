@@ -33,7 +33,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
       try {
 
-        List<GetProductModel> products = await getProducts();
+        ProductService productService = ProductService();
+
+
+        List<GetProductModel> products = await productService.getProducts();
 
 
         allProducts = products;
@@ -54,9 +57,12 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
       try {
 
+        ProductService productService = ProductService();
+
+
         List<GetProductModel> searchResults =
 
-            await getSearchedProducts(event.query);
+            await productService.getSearchedProducts(event.query);
 
 
         emit(SearchProductsState(searchResults: searchResults));

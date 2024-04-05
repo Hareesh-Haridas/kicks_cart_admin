@@ -84,7 +84,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             backgroundColor: Colors.blueGrey[900]),
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
-                            await loginUser(context);
+                            AuthService authService = AuthService();
+                            await authService.loginUser(context);
                           }
                         },
                         child: const Text(

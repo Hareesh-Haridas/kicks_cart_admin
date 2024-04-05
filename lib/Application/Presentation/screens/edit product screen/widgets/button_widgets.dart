@@ -31,7 +31,9 @@ class _SaveChangesButtonState extends State<SaveChangesButton> {
           child: MaterialButton(
             onPressed: () async {
               int parsedPrice = int.parse(editProductPriceController.text);
-              await editProduct(
+              ProductService productService = ProductService();
+              await productService
+                  .editProduct(
                       widget.editSelectedImages,
                       editProductNameController.text,
                       parsedPrice,

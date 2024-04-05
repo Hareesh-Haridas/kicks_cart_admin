@@ -85,13 +85,16 @@ class _EditProductScreenState extends State<EditProductScreen> {
               kHeight30,
               for (int i = 0; i < 4; i++)
                 ImagePickerWidget(
-                    image: widget.editSelectedImages[i],
-                    imageUrl: images[i],
-                    pickImage: (pickedFile) {
-                      setState(() {
-                        widget.editSelectedImages[i] = pickedFile;
-                      });
-                    }),
+                  image: widget.editSelectedImages[i],
+                  imageUrl: images[i],
+                  pickImage: (pickedFile) {
+                    setState(() {
+                      widget.editSelectedImages[i] = pickedFile;
+                      print(widget.editSelectedImages);
+                    });
+                  },
+                  uploadImage: (File? selectedImage, File? initialImage) {},
+                ),
               kHeight20,
               const NameField(),
               kHeight20,

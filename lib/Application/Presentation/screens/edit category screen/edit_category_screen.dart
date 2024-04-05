@@ -106,6 +106,7 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: editCategoryNameController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
@@ -131,14 +132,17 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                           backgroundColor: kBlueGray,
                         ),
                         onPressed: () async {
-                          await editCategory(
-                            editCategoryNameController.text,
-                            editImage!,
-                            context,
-                            widget.id,
-                          ).whenComplete(() => context
-                              .read<CategoryBloc>()
-                              .add(FetchCategoriesEvent()));
+                          BrandService brandService = BrandService();
+                          await brandService
+                              .editCategory(
+                                editCategoryNameController.text,
+                                editImage!,
+                                context,
+                                widget.id,
+                              )
+                              .whenComplete(() => context
+                                  .read<CategoryBloc>()
+                                  .add(FetchCategoriesEvent()));
                         },
                         child: const Text(
                           "Submit",

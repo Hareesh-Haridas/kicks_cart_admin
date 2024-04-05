@@ -1,5 +1,6 @@
 import 'package:admin/Application/Business%20logic/Bottom%20Nav/bloc/bottom_navigation_bloc.dart';
 import 'package:admin/Application/Business%20logic/category/bloc/bloc/category_bloc.dart';
+import 'package:admin/Application/Business%20logic/orders/bloc/bloc/orders_bloc.dart';
 import 'package:admin/Application/Business%20logic/product/bloc/bloc/product_bloc.dart';
 import 'package:admin/Application/Presentation/screens/Add%20product%20screen/product_add_screen.dart';
 import 'package:admin/Application/Presentation/screens/edit%20product%20screen/edit_screen.dart';
@@ -14,8 +15,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  String? authToken = await getAuthToken();
-  print(authToken);
+  String? mainauthToken = await getAuthToken();
+  print(mainauthToken);
   Widget initialScreen =
       authToken != null ? const RootPage() : const LoginScreen();
   runApp(MyApp(
@@ -33,7 +34,8 @@ class MyApp extends StatelessWidget {
           BlocProvider<BottomNavigationBloc>(
               create: (context) => BottomNavigationBloc()),
           BlocProvider<CategoryBloc>(create: (context) => CategoryBloc()),
-          BlocProvider<ProductBloc>(create: (context) => ProductBloc())
+          BlocProvider<ProductBloc>(create: (context) => ProductBloc()),
+          BlocProvider<OrdersBloc>(create: (context) => OrdersBloc())
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

@@ -56,6 +56,7 @@ class _DescriptionFieldState extends State<DescriptionField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: editProductDescriptionController,
       decoration: const InputDecoration(
           border: OutlineInputBorder(), labelText: 'Enter Product Description'),
@@ -78,6 +79,7 @@ class _PriceFieldState extends State<PriceField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.number,
       controller: editProductPriceController,
       decoration: const InputDecoration(
@@ -101,6 +103,7 @@ class _NameFieldState extends State<NameField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: editProductNameController,
       decoration: const InputDecoration(
         border: OutlineInputBorder(),

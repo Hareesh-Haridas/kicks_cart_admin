@@ -127,7 +127,11 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                                           const Text('Cancel')),
                                                   TextButton(
                                                     onPressed: () async {
-                                                      await deleteCategory(
+                                                      BrandService
+                                                          brandService =
+                                                          BrandService();
+                                                      await brandService
+                                                          .deleteCategory(
                                                               categories[index]
                                                                   .id,
                                                               context)
