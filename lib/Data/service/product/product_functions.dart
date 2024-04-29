@@ -1,13 +1,17 @@
 import 'dart:io';
-import 'package:admin/Application/Presentation/utils/colors.dart';
-import 'package:admin/Data/service/auth/autherization_functions.dart';
-import 'package:admin/Data/service/category/category_functions.dart';
-import 'package:admin/Data/service/product/config.dart';
-import 'package:admin/Domain/models/product/edit%20product%20model/edit_product.dart';
-import 'package:admin/Domain/models/product/get%20product%20model/get_product_model.dart';
-import 'package:admin/Domain/models/product/add%20product%20model/product_model.dart';
+// import 'package:admin/application/Presentation/utils/colors.dart';
+// import 'package:admin/Data/service/auth/autherization_functions.dart';
+// import 'package:admin/Data/service/product/config.dart';
+
+import 'package:admin/data/service/auth/autherization_functions.dart';
+import 'package:admin/data/service/product/config.dart';
+import 'package:admin/domain/models/product/add_product_model/product_model.dart';
+import 'package:admin/domain/models/product/edit_product_model/edit_product.dart';
+import 'package:admin/domain/models/product/get_product_model/get_product_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
+import '../../../application/presentation/utils/colors.dart';
 
 class ProductService {
   Future<ProductModel> addProduct(
@@ -50,7 +54,10 @@ class ProductService {
           options: Options(headers: {'Authorization': 'Bearer $authtoken'}));
       if (response.statusCode == 200 || response.statusCode == 201) {
         String responseMessage = response.data['message'] ?? "";
-        productShowSnackBar(context, responseMessage);
+        if (context.mounted) {
+          productShowSnackBar(context, responseMessage);
+        }
+
         return ProductModel.fromJson(response.data);
       } else {
         return productModel;
@@ -86,10 +93,12 @@ class ProductService {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         deleteProductMessage = response.data['message'];
-        productShowSnackBar(context, deleteProductMessage);
+        if (context.mounted) {
+          productShowSnackBar(context, deleteProductMessage);
+        }
       }
     } catch (e) {
-      print('Error in Delete Category $e');
+      debugPrint('Error in Delete Category $e');
     }
   }
 
@@ -134,8 +143,11 @@ class ProductService {
           options: Options(headers: {'Authorization': 'Bearer $authtoken'}));
       if (response.statusCode == 200 || response.statusCode == 201) {
         String responseMessage = response.data['message'] ?? "";
-        productShowSnackBar(context, responseMessage);
-        Navigator.of(context).pop();
+        if (context.mounted) {
+          productShowSnackBar(context, responseMessage);
+          Navigator.of(context).pop();
+        }
+
         return EditProductModel.fromJson(response.data);
       } else {
         return editProductModel;

@@ -1,18 +1,20 @@
-import 'package:admin/Application/Business%20logic/product/bloc/bloc/product_bloc.dart';
-import 'package:admin/Application/Presentation/screens/edit%20product%20screen/edit_screen.dart';
+// import 'package:admin/Application/Business%20logic/product/bloc/bloc/product_bloc.dart';
 
-import 'package:admin/Application/Presentation/screens/Home/widgets/name_and_logout_widget.dart';
+import 'package:admin/application/Presentation/screens/Home/widgets/name_and_logout_widget.dart';
 
-import 'package:admin/Application/Presentation/screens/Home/widgets/search_widget.dart';
-import 'package:admin/Application/Presentation/screens/product%20detail%20screen/product_detail_screen.dart';
-import 'package:admin/Application/Presentation/utils/colors.dart';
-import 'package:admin/Application/Presentation/utils/constants.dart';
+import 'package:admin/application/Presentation/screens/Home/widgets/search_widget.dart';
+import 'package:admin/application/Presentation/screens/product_detail_screen/product_detail_screen.dart';
+import 'package:admin/application/Presentation/utils/colors.dart';
+import 'package:admin/application/Presentation/utils/constants.dart';
 
 import 'package:admin/Data/service/product/config.dart';
 import 'package:admin/Data/service/product/product_functions.dart';
-import 'package:admin/Domain/models/product/get%20product%20model/get_product_model.dart';
+import 'package:admin/application/presentation/screens/edit_product_screen/edit_screen.dart';
+import 'package:admin/domain/models/product/get_product_model/get_product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../business_logic/product/bloc/bloc/product_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -78,16 +80,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   crossAxisCount: 2, childAspectRatio: 0.75),
                           itemBuilder: (context, index) {
                             String imageFileName = products[index].images[0];
-                            String image1 = products[index].images[0];
-                            String image2 = products[index].images[1];
-                            String image3 = products[index].images[2];
-                            String image4 = products[index].images[3];
-                            print(imageFileName);
+
                             String imageUrl = '$productUrl/$imageFileName';
-                            String firstImage = '$productUrl/$image1';
-                            String secondImage = '$productUrl/$image2';
-                            String thirdImage = '$productUrl/$image3';
-                            String fourthImage = '$productUrl/$image4';
+
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: GestureDetector(
@@ -131,9 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           TextButton(
                                                               onPressed:
                                                                   () async {
-                                                                print(products[
-                                                                        index]
-                                                                    .id);
                                                                 ProductService
                                                                     productService =
                                                                     ProductService();
@@ -147,9 +139,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             ProductBloc>()
                                                                         .add(
                                                                             FetchProductsEvent()));
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
+                                                                if (context
+                                                                    .mounted) {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                }
                                                               },
                                                               child: const Text(
                                                                   "Delete"))
@@ -253,7 +248,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             String image2 = searchResults[index].images[1];
                             String image3 = searchResults[index].images[2];
                             String image4 = searchResults[index].images[3];
-                            print(imageFileName);
+
                             String imageUrl = '$productUrl/$imageFileName';
                             String firstImage = '$productUrl/$image1';
                             String secondImage = '$productUrl/$image2';
@@ -302,9 +297,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           TextButton(
                                                               onPressed:
                                                                   () async {
-                                                                print(searchResults[
-                                                                        index]
-                                                                    .id);
                                                                 ProductService
                                                                     productService =
                                                                     ProductService();
@@ -318,9 +310,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                             ProductBloc>()
                                                                         .add(
                                                                             FetchProductsEvent()));
-                                                                Navigator.of(
-                                                                        context)
-                                                                    .pop();
+                                                                if (context
+                                                                    .mounted) {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                }
                                                               },
                                                               child: const Text(
                                                                   "Delete"))

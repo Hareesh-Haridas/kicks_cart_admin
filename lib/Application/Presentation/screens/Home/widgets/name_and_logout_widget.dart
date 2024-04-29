@@ -1,4 +1,4 @@
-import 'package:admin/Application/Presentation/screens/Home/widgets/kicks_kart_text_widget.dart';
+import 'package:admin/application/Presentation/screens/Home/widgets/kicks_kart_text_widget.dart';
 import 'package:admin/Data/service/auth/autherization_functions.dart';
 import 'package:flutter/material.dart';
 
