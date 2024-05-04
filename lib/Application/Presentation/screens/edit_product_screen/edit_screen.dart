@@ -91,15 +91,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
               kHeight30,
               for (int i = 0; i < 4; i++)
                 ImagePickerWidget(
-                  key: UniqueKey(), // Add a unique key
-                  index: i, // Pass the index
+                  key: UniqueKey(),
+                  index: i,
                   image: widget.editSelectedImages[i],
                   imageUrl: images[i],
-
                   updateSelectedImage: (pickedFile, index) {
                     setState(() {
                       widget.editSelectedImages[index] = pickedFile;
-                      print('picked image: ${widget.editSelectedImages}');
                     });
                   },
                 ),

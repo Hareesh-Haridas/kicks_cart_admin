@@ -30,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     products = context.read<ProductBloc>();
     products.add(FetchProductsEvent());
-    products.add(SearchProductsEvent(query: ''));
+    // products.add(SearchProductsEvent(query: ''));
   }
 
   @override
@@ -38,11 +38,13 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
     products = context.read<ProductBloc>();
     products.add(FetchProductsEvent());
-    products.add(SearchProductsEvent(query: ''));
+    // products.add(SearchProductsEvent(query: ''));
   }
 
   @override
   Widget build(BuildContext context) {
+    // products.add(FetchProductsEvent());
+    // products.add(SearchProductsEvent(query: ''));
     return Scaffold(
       backgroundColor: kWhite,
       body: SafeArea(
@@ -104,58 +106,58 @@ class _HomeScreenState extends State<HomeScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         children: [
-                                          IconButton(
-                                            onPressed: () async {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (_) => AlertDialog(
-                                                        title: const Text(
-                                                            'Delete Product'),
-                                                        content: const Text(
-                                                            'Are You Sure You Want To Delete This Product?'),
-                                                        actions: [
-                                                          TextButton(
-                                                            onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                            },
-                                                            child: const Text(
-                                                                'Cancel'),
-                                                          ),
-                                                          TextButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                ProductService
-                                                                    productService =
-                                                                    ProductService();
-                                                                await productService
-                                                                    .deleteProduct(
-                                                                        products[index]
-                                                                            .id,
-                                                                        context)
-                                                                    .whenComplete(() => context
-                                                                        .read<
-                                                                            ProductBloc>()
-                                                                        .add(
-                                                                            FetchProductsEvent()));
-                                                                if (context
-                                                                    .mounted) {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                }
-                                                              },
-                                                              child: const Text(
-                                                                  "Delete"))
-                                                        ],
-                                                      ));
-                                            },
-                                            icon: const Icon(
-                                              Icons.delete_outlined,
-                                              color: Colors.red,
-                                            ),
-                                          ),
+                                          // IconButton(
+                                          //   onPressed: () async {
+                                          //     showDialog(
+                                          //         context: context,
+                                          //         builder: (_) => AlertDialog(
+                                          //               title: const Text(
+                                          //                   'Delete Product'),
+                                          //               content: const Text(
+                                          //                   'Are You Sure You Want To Delete This Product?'),
+                                          //               actions: [
+                                          //                 TextButton(
+                                          //                   onPressed: () {
+                                          //                     Navigator.of(
+                                          //                             context)
+                                          //                         .pop();
+                                          //                   },
+                                          //                   child: const Text(
+                                          //                       'Cancel'),
+                                          //                 ),
+                                          //                 TextButton(
+                                          //                     onPressed:
+                                          //                         () async {
+                                          //                       ProductService
+                                          //                           productService =
+                                          //                           ProductService();
+                                          //                       await productService
+                                          //                           .deleteProduct(
+                                          //                               products[index]
+                                          //                                   .id,
+                                          //                               context)
+                                          //                           .whenComplete(() => context
+                                          //                               .read<
+                                          //                                   ProductBloc>()
+                                          //                               .add(
+                                          //                                   FetchProductsEvent()));
+                                          //                       if (context
+                                          //                           .mounted) {
+                                          //                         Navigator.of(
+                                          //                                 context)
+                                          //                             .pop();
+                                          //                       }
+                                          //                     },
+                                          //                     child: const Text(
+                                          //                         "Delete"))
+                                          //               ],
+                                          //             ));
+                                          //   },
+                                          //   icon: const Icon(
+                                          //     Icons.delete_outlined,
+                                          //     color: Colors.red,
+                                          //   ),
+                                          // ),
                                           IconButton(
                                               onPressed: () {
                                                 Navigator.push(
@@ -193,7 +195,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                   .id,
                                                             )));
                                               },
-                                              icon: const Icon(Icons.edit))
+                                              icon: const Icon(
+                                                Icons.edit,
+                                                color: kBlue,
+                                              ))
                                         ],
                                       ),
                                       Image.network(
@@ -275,58 +280,58 @@ class _HomeScreenState extends State<HomeScreen> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.end,
                                         children: [
-                                          IconButton(
-                                            onPressed: () async {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (_) => AlertDialog(
-                                                        title: const Text(
-                                                            'Delete Product'),
-                                                        content: const Text(
-                                                            'Are You Sure You Want To Delete This Product?'),
-                                                        actions: [
-                                                          TextButton(
-                                                            onPressed: () {
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                            },
-                                                            child: const Text(
-                                                                'Cancel'),
-                                                          ),
-                                                          TextButton(
-                                                              onPressed:
-                                                                  () async {
-                                                                ProductService
-                                                                    productService =
-                                                                    ProductService();
-                                                                await productService
-                                                                    .deleteProduct(
-                                                                        searchResults[index]
-                                                                            .id,
-                                                                        context)
-                                                                    .whenComplete(() => context
-                                                                        .read<
-                                                                            ProductBloc>()
-                                                                        .add(
-                                                                            FetchProductsEvent()));
-                                                                if (context
-                                                                    .mounted) {
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop();
-                                                                }
-                                                              },
-                                                              child: const Text(
-                                                                  "Delete"))
-                                                        ],
-                                                      ));
-                                            },
-                                            icon: const Icon(
-                                              Icons.delete_outlined,
-                                              color: Colors.red,
-                                            ),
-                                          ),
+                                          // IconButton(
+                                          //   onPressed: () async {
+                                          //     showDialog(
+                                          //         context: context,
+                                          //         builder: (_) => AlertDialog(
+                                          //               title: const Text(
+                                          //                   'Delete Product'),
+                                          //               content: const Text(
+                                          //                   'Are You Sure You Want To Delete This Product?'),
+                                          //               actions: [
+                                          //                 TextButton(
+                                          //                   onPressed: () {
+                                          //                     Navigator.of(
+                                          //                             context)
+                                          //                         .pop();
+                                          //                   },
+                                          //                   child: const Text(
+                                          //                       'Cancel'),
+                                          //                 ),
+                                          //                 TextButton(
+                                          //                     onPressed:
+                                          //                         () async {
+                                          //                       ProductService
+                                          //                           productService =
+                                          //                           ProductService();
+                                          //                       await productService
+                                          //                           .deleteProduct(
+                                          //                               searchResults[index]
+                                          //                                   .id,
+                                          //                               context)
+                                          //                           .whenComplete(() => context
+                                          //                               .read<
+                                          //                                   ProductBloc>()
+                                          //                               .add(
+                                          //                                   FetchProductsEvent()));
+                                          //                       if (context
+                                          //                           .mounted) {
+                                          //                         Navigator.of(
+                                          //                                 context)
+                                          //                             .pop();
+                                          //                       }
+                                          //                     },
+                                          //                     child: const Text(
+                                          //                         "Delete"))
+                                          //               ],
+                                          //             ));
+                                          //   },
+                                          //   icon: const Icon(
+                                          //     Icons.delete_outlined,
+                                          //     color: Colors.red,
+                                          //   ),
+                                          // ),
                                           IconButton(
                                               onPressed: () {
                                                 Navigator.push(

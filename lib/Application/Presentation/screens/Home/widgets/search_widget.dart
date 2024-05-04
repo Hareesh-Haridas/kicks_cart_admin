@@ -26,13 +26,18 @@ class _SearchWidgetState extends State<SearchWidget> {
       child: TextFormField(
         controller: searchController,
         onChanged: (query) {
-          widget.onSearch(query);
+          if (query.isEmpty) {
+            widget.context.read<ProductBloc>().add(FetchProductsEvent());
+          } else {
+            widget.onSearch(query);
+          }
         },
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.search),
           suffixIcon: IconButton(
               onPressed: () {
                 searchController.clear();
+
                 widget.onSearch('');
                 widget.context.read<ProductBloc>().add(FetchProductsEvent());
               },

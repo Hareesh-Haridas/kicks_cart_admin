@@ -1,4 +1,3 @@
-import 'package:admin/application/Presentation/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {

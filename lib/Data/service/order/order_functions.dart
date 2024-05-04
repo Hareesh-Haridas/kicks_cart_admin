@@ -48,7 +48,6 @@ class OrderService {
     try {
       final response = await Dio().get('$getOrderDetailsUrl/$id',
           options: Options(headers: {'Authorization': '$orderToken'}));
-      print(response.data);
 
       List<GetAllOrderModel> orders = (response.data['data'] as List)
           .map((json) => GetAllOrderModel.fromJson(json, id))

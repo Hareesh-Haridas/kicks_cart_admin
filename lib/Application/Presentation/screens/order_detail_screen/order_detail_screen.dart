@@ -49,9 +49,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             future: orderService.getAllOrders(widget.id),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return Center(child: Text('Error Fetching orders'));
+                return const Center(child: Text('Error Fetching orders'));
               } else {
                 List<GetAllOrderModel> orders = snapshot.data!;
                 return Column(
@@ -93,17 +93,17 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             child: BlocBuilder<OrdersBloc, OrdersState>(
                               builder: (context, state) {
                                 if (state is LoadingOrdersState) {
-                                  return CircularProgressIndicator();
+                                  return const CircularProgressIndicator();
                                 } else if (state is LoadedOrderState) {
                                   List<GetOrderModel> orders = state.orders;
                                   return Text(
                                     orders[widget.index].currentStatus,
-                                    style: TextStyle(color: kWhite),
+                                    style: const TextStyle(color: kWhite),
                                   );
                                 } else if (state is ErrorOrderState) {
-                                  return Text('Error Fetching status');
+                                  return const Text('Error Fetching status');
                                 } else {
-                                  return Text('Unknown error');
+                                  return const Text('Unknown error');
                                 }
                               },
                             ),
@@ -116,7 +116,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       child: ListView.builder(
                         itemCount: orders.length - 1,
                         itemBuilder: (context, index) {
-                          print('order length: ${orders.length}');
                           String imageFileName = orders[index].images[0];
 
                           String imageUrl = '$productUrl/$imageFileName';
@@ -143,8 +142,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(orders[index].productName),
-                                          kHeight10,
-                                          Text('Quantity: '),
+
                                           kHeight10,
                                           // Expanded(
                                           //   child: Text(
@@ -202,28 +200,28 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ],
                     ),
                     const Divider(),
-                    kHeight20,
+                    // kHeight20,
                     Row(
                       children: [
                         BlocBuilder<OrdersBloc, OrdersState>(
                           builder: (context, state) {
                             if (state is LoadingOrdersState) {
-                              return Text('Loading...');
+                              return const Text('Loading...');
                             } else if (state is LoadedOrderState) {
                               List<GetOrderModel> orders = state.orders;
                               return Text(
                                   'User Name: ${orders[widget.index].userName}');
                             } else {
-                              return Text('User NaUnknown error');
+                              return const Text('User NaUnknown error');
                             }
                           },
                         ),
                       ],
                     ),
-                    kHeight10,
-                    const Row(
-                      children: [Text('User Name')],
-                    ),
+                    // kHeight10,
+                    // const Row(
+                    //   children: [Text('User Name')],
+                    // ),
                   ],
                 );
               }

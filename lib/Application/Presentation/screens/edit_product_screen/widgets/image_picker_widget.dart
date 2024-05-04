@@ -62,12 +62,12 @@ class ImagePickerWidget extends StatefulWidget {
   final int index;
 
   const ImagePickerWidget({
-    Key? key,
+    super.key,
     required this.image,
     required this.imageUrl,
     required this.updateSelectedImage,
     required this.index,
-  }) : super(key: key);
+  });
 
   @override
   State<ImagePickerWidget> createState() => _ImagePickerWidgetState();
@@ -99,7 +99,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                   ? Image.network(widget.imageUrl)
                   : (widget.image != null)
                       ? Image.file(widget.image!)
-                      : Placeholder(),
+                      : const Placeholder(),
         ),
         IconButton(
           onPressed: () async {

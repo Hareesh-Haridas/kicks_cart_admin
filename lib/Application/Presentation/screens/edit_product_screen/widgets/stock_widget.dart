@@ -10,8 +10,9 @@ class CounterContainer extends StatefulWidget {
   State<CounterContainer> createState() => _CounterContainerState();
 }
 
+int eCounter = 0;
+
 class _CounterContainerState extends State<CounterContainer> {
-  int eCounter = 0;
   @override
   void initState() {
     super.initState();
@@ -90,6 +91,25 @@ class IncrementButton extends StatelessWidget {
           Icons.add,
           color: Colors.white,
         ),
+      ),
+    );
+  }
+}
+
+class Counter extends StatelessWidget {
+  final int? counter;
+  const Counter({super.key, this.counter});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      height: 30,
+      width: 40,
+      decoration: BoxDecoration(border: Border.all()),
+      child: Text(
+        counter.toString(),
+        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
     );
   }

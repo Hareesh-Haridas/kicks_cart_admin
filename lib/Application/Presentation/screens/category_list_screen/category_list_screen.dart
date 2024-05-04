@@ -104,56 +104,55 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                     ],
                                   ),
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      IconButton(
-                                          onPressed: () async {
-                                            showDialog(
-                                              context: context,
-                                              builder: (_) => AlertDialog(
-                                                title: const Text(
-                                                    'Are you sure you want to delete?'),
-                                                content: const Text(
-                                                    'Delete this Category'),
-                                                actions: [
-                                                  TextButton(
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      },
-                                                      child:
-                                                          const Text('Cancel')),
-                                                  TextButton(
-                                                    onPressed: () async {
-                                                      BrandService
-                                                          brandService =
-                                                          BrandService();
-                                                      await brandService
-                                                          .deleteCategory(
-                                                              categories[index]
-                                                                  .id,
-                                                              context)
-                                                          .whenComplete(() => context
-                                                              .read<
-                                                                  CategoryBloc>()
-                                                              .add(
-                                                                  FetchCategoriesEvent()));
-                                                      if (context.mounted) {
-                                                        Navigator.of(context)
-                                                            .pop();
-                                                      }
-                                                    },
-                                                    child: const Text("Delete"),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                          icon: const Icon(
-                                            Icons.delete_outline,
-                                            color: kRed,
-                                          )),
+                                      // IconButton(
+                                      //     onPressed: () async {
+                                      //       showDialog(
+                                      //         context: context,
+                                      //         builder: (_) => AlertDialog(
+                                      //           title: const Text(
+                                      //               'Are you sure you want to delete?'),
+                                      //           content: const Text(
+                                      //               'Delete this Category'),
+                                      //           actions: [
+                                      //             TextButton(
+                                      //                 onPressed: () {
+                                      //                   Navigator.of(context)
+                                      //                       .pop();
+                                      //                 },
+                                      //                 child:
+                                      //                     const Text('Cancel')),
+                                      //             TextButton(
+                                      //               onPressed: () async {
+                                      //                 BrandService
+                                      //                     brandService =
+                                      //                     BrandService();
+                                      //                 await brandService
+                                      //                     .deleteCategory(
+                                      //                         categories[index]
+                                      //                             .id,
+                                      //                         context)
+                                      //                     .whenComplete(() => context
+                                      //                         .read<
+                                      //                             CategoryBloc>()
+                                      //                         .add(
+                                      //                             FetchCategoriesEvent()));
+                                      //                 if (context.mounted) {
+                                      //                   Navigator.of(context)
+                                      //                       .pop();
+                                      //                 }
+                                      //               },
+                                      //               child: const Text("Delete"),
+                                      //             )
+                                      //           ],
+                                      //         ),
+                                      //       );
+                                      //     },
+                                      //     icon: const Icon(
+                                      //       Icons.delete_outline,
+                                      //       color: kRed,
+                                      //     )),
                                       IconButton(
                                           onPressed: () {
                                             Navigator.of(context).push(
