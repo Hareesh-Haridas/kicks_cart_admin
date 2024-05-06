@@ -28,7 +28,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     'Shipped',
     'Delivered',
     'Cancelled',
-    'Returned'
   ];
   String? selectedStatus;
   @override
