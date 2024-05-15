@@ -3,6 +3,7 @@ import 'dart:io';
 // import 'package:admin/Data/service/auth/autherization_functions.dart';
 // import 'package:admin/Data/service/product/config.dart';
 
+import 'package:admin/application/presentation/utils/colors.dart';
 import 'package:admin/data/service/auth/autherization_functions.dart';
 import 'package:admin/data/service/product/config.dart';
 import 'package:admin/domain/models/product/add_product_model/product_model.dart';
@@ -11,7 +12,7 @@ import 'package:admin/domain/models/product/get_product_model/get_product_model.
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-import '../../../application/presentation/utils/colors.dart';
+// import '../../../application/presentation/utils/colors.dart';
 
 class ProductService {
   Future<ProductModel> addProduct(
@@ -24,6 +25,7 @@ class ProductService {
       String authtoken,
       String message,
       BuildContext context) async {
+    String getProductToken = await getAuthToken() ?? '';
     ProductModel productModel = ProductModel(
         productImage: image,
         productName: "",
@@ -51,7 +53,7 @@ class ProductService {
       });
       final response = await Dio().post(addProductUrl,
           data: formData,
-          options: Options(headers: {'Authorization': 'Bearer $authtoken'}));
+          options: Options(headers: {'Authorization': getProductToken}));
       if (response.statusCode == 200 || response.statusCode == 201) {
         String responseMessage = response.data['message'] ?? "";
         if (context.mounted) {
@@ -68,9 +70,10 @@ class ProductService {
   }
 
   Future<List<GetProductModel>> getProducts() async {
+    String getProductToken = await getAuthToken() ?? '';
     try {
       final response = await Dio().get(getProductUrl,
-          options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
+          options: Options(headers: {'Authorization': getProductToken}));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         List<GetProductModel> products = (response.data['data'] as List)
@@ -89,7 +92,7 @@ class ProductService {
   Future<void> deleteProduct(String id, BuildContext context) async {
     try {
       final response = await Dio().delete('$deleteProductUrl/$id',
-          options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
+          options: Options(headers: {'Authorization': globalToken}));
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         deleteProductMessage = response.data['message'];
@@ -112,6 +115,7 @@ class ProductService {
       String authtoken,
       BuildContext context,
       String id) async {
+    String getProductToken = await getAuthToken() ?? '';
     EditProductModel editProductModel = EditProductModel(
         category: "",
         description: "",
@@ -140,7 +144,7 @@ class ProductService {
       });
       final response = await Dio().patch(editProductUrl,
           data: formData,
-          options: Options(headers: {'Authorization': 'Bearer $authtoken'}));
+          options: Options(headers: {'Authorization': getProductToken}));
       if (response.statusCode == 200 || response.statusCode == 201) {
         String responseMessage = response.data['message'] ?? "";
         if (context.mounted) {
@@ -158,9 +162,10 @@ class ProductService {
   }
 
   Future<List<GetProductModel>> searchProducts(String letters) async {
+    String getProductToken = await getAuthToken() ?? '';
     try {
       final response = await Dio().get(searchProductUrl,
-          options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
+          options: Options(headers: {'Authorization': getProductToken}));
       if (response.statusCode == 200 || response.statusCode == 201) {
         List<GetProductModel> products = (response.data['data'] as List)
             .map((json) => GetProductModel.fromJson(json))
@@ -175,9 +180,11 @@ class ProductService {
   }
 
   Future<List<GetProductModel>> getSearchedProducts(String query) async {
+    String getProductToken = await getAuthToken() ?? '';
+
     try {
       final response = await Dio().get('$searchProductUrl/$query',
-          options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
+          options: Options(headers: {'Authorization': getProductToken}));
 
       bool status = response.data['status'];
       if (status) {
@@ -194,9 +201,11 @@ class ProductService {
   }
 
   Future<GetProductModel> fetchProductDetail(String id) async {
+    String getProductToken = await getAuthToken() ?? '';
+
     try {
       final response = await Dio().get('$fetchProductUrl/$id',
-          options: Options(headers: {'Authorization': 'Bearer $globalToken'}));
+          options: Options(headers: {'Authorization': getProductToken}));
       if (response.statusCode == 200 || response.statusCode == 201) {
         GetProductModel getProductModel =
             GetProductModel.fromJson(response.data['data']);

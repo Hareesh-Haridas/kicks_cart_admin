@@ -3,11 +3,12 @@
 // import 'package:admin/application/Presentation/screens/Add%20product%20screen/widgets/text_form_field_widgets.dart';
 // import 'package:admin/application/Presentation/screens/add%20category%20screen/add_category_screen.dart';
 import 'package:admin/application/Presentation/utils/colors.dart';
-import 'package:admin/Data/service/product/product_functions.dart';
+// import 'package:admin/Data/service/product/product_functions.dart';
 import 'package:admin/application/business_logic/product/bloc/bloc/product_bloc.dart';
 import 'package:admin/application/presentation/screens/add_category_screen/add_category_screen.dart';
 import 'package:admin/application/presentation/screens/add_product_screen/product_add_screen.dart';
 import 'package:admin/application/presentation/screens/add_product_screen/widgets/text_form_field_widgets.dart';
+import 'package:admin/data/service/product/product_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

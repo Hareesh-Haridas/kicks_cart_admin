@@ -7,14 +7,16 @@ import 'dart:io';
 // import 'package:admin/application/Presentation/screens/edit%20product%20screen/widgets/image_picker_widget.dart';
 // import 'package:admin/application/Presentation/screens/edit%20product%20screen/widgets/stock_widget.dart';
 // import 'package:admin/application/Presentation/screens/edit%20product%20screen/widgets/text_widgets.dart';
-import 'package:admin/application/Presentation/utils/colors.dart';
-import 'package:admin/application/Presentation/utils/constants.dart';
+// import 'package:admin/application/Presentation/utils/colors.dart';
+// import 'package:admin/application/Presentation/utils/constants.dart';
 import 'package:admin/application/presentation/screens/edit_product_screen/widgets/appar_widget.dart';
 import 'package:admin/application/presentation/screens/edit_product_screen/widgets/button_widgets.dart';
 import 'package:admin/application/presentation/screens/edit_product_screen/widgets/dropdown_widget.dart';
 import 'package:admin/application/presentation/screens/edit_product_screen/widgets/image_picker_widget.dart';
 import 'package:admin/application/presentation/screens/edit_product_screen/widgets/stock_widget.dart';
 import 'package:admin/application/presentation/screens/edit_product_screen/widgets/text_widgets.dart';
+import 'package:admin/application/presentation/utils/colors.dart';
+import 'package:admin/application/presentation/utils/constants.dart';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

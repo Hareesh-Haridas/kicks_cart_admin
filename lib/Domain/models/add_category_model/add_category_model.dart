@@ -1,4 +1,6 @@
-import 'package:admin/Data/service/auth/config.dart';
+// import 'package:admin/Data/service/auth/config.dart';
+
+import 'package:admin/data/service/auth/config.dart';
 
 class BrandModel {
   final String name;
