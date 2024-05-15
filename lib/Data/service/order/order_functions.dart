@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 
 class OrderService {
   Future<List<GetOrderModel>> getOrders() async {
+    print('get orders');
     String? orderToken = await getAuthToken();
     try {
       final response = await Dio().get(getOrderUrl,
@@ -44,11 +45,12 @@ class OrderService {
   }
 
   Future<List<GetAllOrderModel>> getAllOrders(String id) async {
+    print('get all orders');
     String? orderToken = await getAuthToken();
     try {
       final response = await Dio().get('$getOrderDetailsUrl/$id',
           options: Options(headers: {'Authorization': '$orderToken'}));
-
+      print(response.data);
       List<GetAllOrderModel> orders = (response.data['data'] as List)
           .map((json) => GetAllOrderModel.fromJson(json, id))
           .toList();

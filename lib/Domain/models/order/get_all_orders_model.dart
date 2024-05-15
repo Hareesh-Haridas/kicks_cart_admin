@@ -31,7 +31,7 @@ class GetAllOrderModel {
         email: json['email'] ?? '',
         totalPrice: json['price'] ?? 0,
         paymentMethod: json['paymentMethod'] ?? '',
-        currentStatus: json['curentStatus'] ?? '',
+        currentStatus: json['status'] ?? '',
         mobile: json['mobile'] ?? '',
         size: json['size'] ?? '',
         quantity: json['quantity'] ?? 0);

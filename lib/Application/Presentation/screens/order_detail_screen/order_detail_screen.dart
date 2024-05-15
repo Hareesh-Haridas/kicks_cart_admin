@@ -33,8 +33,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   @override
   void initState() {
     super.initState();
-    ordersBloc = context.read<OrdersBloc>();
-    ordersBloc.add(FetchOrdersEvent());
+    // ordersBloc = context.read<OrdersBloc>();
+    // ordersBloc.add(FetchOrdersEvent());
   }
 
   @override
@@ -53,6 +53,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 return const Center(child: Text('Error Fetching orders'));
               } else {
                 List<GetAllOrderModel> orders = snapshot.data!;
+                print('order length: ${orders.length}');
+                String currentStatus = orders[widget.index].currentStatus;
+                print('Current Status : $currentStatus');
                 return Column(
                   children: [
                     kHeight10,
@@ -88,23 +91,29 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             color: kGreen,
                             borderRadius: BorderRadius.circular(10),
                           ),
+                          // child: Center(
+                          //   child: BlocBuilder<OrdersBloc, OrdersState>(
+                          //     builder: (context, state) {
+                          //       if (state is LoadingOrdersState) {
+                          //         return const CircularProgressIndicator();
+                          //       } else if (state is LoadedOrderState) {
+                          //         List<GetOrderModel> orders = state.orders;
+                          //         return Text(
+                          //           orders[widget.index].currentStatus,
+                          //           style: const TextStyle(color: kWhite),
+                          //         );
+                          //       } else if (state is ErrorOrderState) {
+                          //         return const Text('Error Fetching status');
+                          //       } else {
+                          //         return const Text('Unknown error');
+                          //       }
+                          //     },
+                          //   ),
+                          // ),
                           child: Center(
-                            child: BlocBuilder<OrdersBloc, OrdersState>(
-                              builder: (context, state) {
-                                if (state is LoadingOrdersState) {
-                                  return const CircularProgressIndicator();
-                                } else if (state is LoadedOrderState) {
-                                  List<GetOrderModel> orders = state.orders;
-                                  return Text(
-                                    orders[widget.index].currentStatus,
-                                    style: const TextStyle(color: kWhite),
-                                  );
-                                } else if (state is ErrorOrderState) {
-                                  return const Text('Error Fetching status');
-                                } else {
-                                  return const Text('Unknown error');
-                                }
-                              },
+                            child: Text(
+                              currentStatus,
+                              style: const TextStyle(color: kWhite),
                             ),
                           ),
                         ),
@@ -190,7 +199,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 .whenComplete(() => context
                                     .read<OrdersBloc>()
                                     .add(FetchOrdersEvent()));
-
+                            setState(() {
+                              currentStatus = newValue;
+                            });
                             // setState(() {
                             //   selectedStatus = newValue;
                             // });
