@@ -1,7 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18" />
+<uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="admin"
+        android:label="Kicks Cart Admin"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="android:enableOnBackInvokedCallback" android:value="true" />

@@ -1,5 +1,8 @@
-import 'package:admin/application/Presentation/screens/Home/widgets/kicks_kart_text_widget.dart';
-import 'package:admin/Data/service/auth/autherization_functions.dart';
+// import 'package:admin/application/Presentation/screens/Home/widgets/kicks_kart_text_widget.dart';
+// import 'package:admin/Data/service/auth/autherization_functions.dart';
+// import 'package:admin/application/presentation/screens/home/widgets/kicks_kart_text_widget.dart';
+import 'package:admin/application/presentation/screens/home/widgets/kicks_kart_text_widget.dart';
+import 'package:admin/data/service/auth/autherization_functions.dart';
 import 'package:flutter/material.dart';
 
 class NameAndLogoutButton extends StatelessWidget {

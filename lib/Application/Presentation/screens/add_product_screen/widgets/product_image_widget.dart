@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:admin/application/Presentation/utils/colors.dart';
+// import 'package:admin/application/Presentation/utils/colors.dart';
+import 'package:admin/application/presentation/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 

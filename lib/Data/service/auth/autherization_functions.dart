@@ -3,17 +3,20 @@ import 'dart:convert';
 // import 'package:admin/application/Presentation/screens/LoginScreen/login_screen.dart';
 // import 'package:admin/application/Widgets/BottomNavigationWidget/root_page.dart';
 // import 'package:admin/Data/service/auth/config.dart';
+import 'package:admin/application/presentation/screens/login_screen/login_screen.dart';
+import 'package:admin/application/widgets/bottom_navigation_widget/root_page.dart';
 import 'package:admin/data/service/auth/config.dart';
 import 'package:admin/domain/models/login_response_model/login_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../application/presentation/screens/login_screen/login_screen.dart';
-import '../../../application/widgets/bottom_navigation_widget/root_page.dart';
+// import '../../../application/presentation/screens/login_screen/login_screen.dart';
+// import '../../../application/widgets/bottom_navigation_widget/root_page.dart';
 
 String globalToken = "";
 String loginMessage = "";
+String mainAuthToken = "";
 
 class AuthService {
   Future<void> loginUser(BuildContext context) async {
@@ -34,7 +37,7 @@ class AuthService {
 
           if (loginResponse.status) {
             String? authToken = loginResponse.token;
-            saveAuthToken(authToken!);
+            await saveAuthToken(authToken!);
             globalToken = (await getAuthToken())!;
             if (context.mounted) {
               Navigator.pushReplacement(context,

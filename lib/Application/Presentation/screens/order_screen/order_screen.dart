@@ -36,12 +36,12 @@ class _OrderScreenState extends State<OrderScreen> {
     ordersBloc.add(FetchOrdersEvent());
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    ordersBloc = context.read<OrdersBloc>();
-    ordersBloc.add(FetchOrdersEvent());
-  }
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   ordersBloc = context.read<OrdersBloc>();
+  //   ordersBloc.add(FetchOrdersEvent());
+  // }
 
   @override
   Widget build(BuildContext context) {
