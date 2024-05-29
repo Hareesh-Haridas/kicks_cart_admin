@@ -1,3 +1,4 @@
+import 'package:admin/application/presentation/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class EditAppbarWidget extends StatelessWidget implements PreferredSizeWidget {
@@ -14,6 +15,7 @@ class EditAppbarWidget extends StatelessWidget implements PreferredSizeWidget {
         style: TextStyle(color: Colors.white),
       ),
       centerTitle: true,
+      iconTheme: IconThemeData(color: kWhite),
     );
   }
 

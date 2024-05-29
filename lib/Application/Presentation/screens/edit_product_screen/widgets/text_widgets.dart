@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class EditStockAndChangeCategoryText extends StatelessWidget {
   const EditStockAndChangeCategoryText({
@@ -56,10 +57,17 @@ class _DescriptionFieldState extends State<DescriptionField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textCapitalization: TextCapitalization.words,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: editProductDescriptionController,
       decoration: const InputDecoration(
           border: OutlineInputBorder(), labelText: 'Enter Product Description'),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Please enter product description';
+        }
+        return null;
+      },
     );
   }
 }
@@ -79,11 +87,20 @@ class _PriceFieldState extends State<PriceField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: TextInputType.number,
       controller: editProductPriceController,
       decoration: const InputDecoration(
           border: OutlineInputBorder(), labelText: 'Enter Product Price'),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Please enter price';
+        }
+        return null;
+      },
     );
   }
 }
@@ -103,12 +120,22 @@ class _NameFieldState extends State<NameField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.deny(RegExp(r'[!@#$%^&*(),.?":{}|<>]')),
+        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
+      ],
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: editProductNameController,
       decoration: const InputDecoration(
         border: OutlineInputBorder(),
         labelText: 'Enter Product Name',
       ),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Please Enter Product Name';
+        }
+        return null;
+      },
     );
   }
 }

@@ -16,6 +16,7 @@ TextEditingController passwordController = TextEditingController();
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,13 +48,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 100,
                 ),
                 TextFormField(
+                  textCapitalization: TextCapitalization.none,
                   controller: emailComtroller,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), labelText: 'e-mail'),
                   validator: (value) {
                     if (value == null ||
                         value.isEmpty ||
-                        !value.contains("@")) {
+                        !value.contains("@") ||
+                        !value.contains('gmail.com')) {
                       return 'Please enter a valid e-mail';
                     }
                     return null;
@@ -63,6 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 20,
                 ),
                 TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   controller: passwordController,
                   decoration: const InputDecoration(
                       border: OutlineInputBorder(), labelText: 'Password'),
@@ -76,26 +81,37 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blueGrey[900]),
-                        onPressed: () async {
-                          if (formKey.currentState!.validate()) {
-                            AuthService authService = AuthService();
-                            await authService.loginUser(context);
-                          }
-                        },
-                        child: const Text(
-                          "Login",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
+                isLoading
+                    ? const CircularProgressIndicator()
+                    : Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blueGrey[900]),
+                              onPressed: () async {
+                                if (formKey.currentState!.validate()) {
+                                  setState(() {
+                                    isLoading = true;
+                                  });
+                                  AuthService authService = AuthService();
+                                  await authService
+                                      .loginUser(context)
+                                      .whenComplete(() {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                  });
+                                }
+                              },
+                              child: const Text(
+                                "Login",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
               ],
             ),
           ),

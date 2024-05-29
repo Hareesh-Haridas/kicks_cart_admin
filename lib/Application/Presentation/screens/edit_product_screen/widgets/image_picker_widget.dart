@@ -52,6 +52,7 @@
 import 'dart:io';
 
 import 'package:admin/application/Presentation/utils/colors.dart';
+import 'package:admin/application/presentation/screens/add_product_screen/product_add_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -82,6 +83,13 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
     _selectedImage = widget.image;
   }
 
+  void deleteImage() {
+    setState(() {
+      _selectedImage = null;
+    });
+    widget.updateSelectedImage(null, widget.index);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -101,23 +109,32 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                       ? Image.file(widget.image!)
                       : const Placeholder(),
         ),
-        IconButton(
-          onPressed: () async {
-            final pickedFile = await ImagePicker().pickImage(
-              source: ImageSource.gallery,
-            );
-            if (pickedFile != null) {
-              setState(() {
-                _selectedImage = File(pickedFile.path);
-              });
-              widget.updateSelectedImage(_selectedImage, widget.index);
-            }
-          },
-          icon: const Icon(
-            Icons.edit,
-            color: kBlue,
-          ),
-        ),
+        _selectedImage != null
+            ? IconButton(
+                onPressed: () {
+                  deleteImage();
+                },
+                icon: const Icon(
+                  Icons.delete,
+                  color: kRed,
+                ))
+            : IconButton(
+                onPressed: () async {
+                  final pickedFile = await ImagePicker().pickImage(
+                    source: ImageSource.gallery,
+                  );
+                  if (pickedFile != null) {
+                    setState(() {
+                      _selectedImage = File(pickedFile.path);
+                    });
+                    widget.updateSelectedImage(_selectedImage, widget.index);
+                  }
+                },
+                icon: const Icon(
+                  Icons.edit,
+                  color: kBlue,
+                ),
+              ),
       ],
     );
   }

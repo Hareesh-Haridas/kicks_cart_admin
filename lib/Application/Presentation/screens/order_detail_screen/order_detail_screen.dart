@@ -24,7 +24,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   late OrdersBloc ordersBloc;
   OrderService orderService = OrderService();
   List<String> statusOptions = [
-    'Pending',
     'Shipped',
     'Delivered',
     'Cancelled',
@@ -35,6 +34,21 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     super.initState();
     // ordersBloc = context.read<OrdersBloc>();
     // ordersBloc.add(FetchOrdersEvent());
+  }
+
+  List<String> getFilteredStatusOptions(String currentStatus) {
+    List<String> filteredOptions = List.from(statusOptions);
+    switch (currentStatus) {
+      case 'Shipped':
+        break;
+      case 'Delivered':
+        filteredOptions.remove('Shipped');
+        break;
+      case 'Cancelled':
+        filteredOptions.clear();
+        break;
+    }
+    return filteredOptions;
   }
 
   @override
@@ -91,25 +105,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             color: kGreen,
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          // child: Center(
-                          //   child: BlocBuilder<OrdersBloc, OrdersState>(
-                          //     builder: (context, state) {
-                          //       if (state is LoadingOrdersState) {
-                          //         return const CircularProgressIndicator();
-                          //       } else if (state is LoadedOrderState) {
-                          //         List<GetOrderModel> orders = state.orders;
-                          //         return Text(
-                          //           orders[widget.index].currentStatus,
-                          //           style: const TextStyle(color: kWhite),
-                          //         );
-                          //       } else if (state is ErrorOrderState) {
-                          //         return const Text('Error Fetching status');
-                          //       } else {
-                          //         return const Text('Unknown error');
-                          //       }
-                          //     },
-                          //   ),
-                          // ),
                           child: Center(
                             child: Text(
                               currentStatus,
@@ -183,7 +178,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       children: [
                         DropdownButton<String>(
                           value: selectedStatus,
-                          items: statusOptions.map<DropdownMenuItem<String>>(
+                          items: getFilteredStatusOptions(currentStatus)
+                              .map<DropdownMenuItem<String>>(
                             (String value) {
                               return DropdownMenuItem<String>(
                                 value: value,

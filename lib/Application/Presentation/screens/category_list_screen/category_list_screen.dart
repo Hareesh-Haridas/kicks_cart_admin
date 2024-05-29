@@ -37,6 +37,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
     categoryBloc.add(FetchCategoriesEvent());
   }
 
+  String blockStatus = 'Block';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,55 +106,48 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                     ],
                                   ),
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
-                                      // IconButton(
-                                      //     onPressed: () async {
-                                      //       showDialog(
-                                      //         context: context,
-                                      //         builder: (_) => AlertDialog(
-                                      //           title: const Text(
-                                      //               'Are you sure you want to delete?'),
-                                      //           content: const Text(
-                                      //               'Delete this Category'),
-                                      //           actions: [
-                                      //             TextButton(
-                                      //                 onPressed: () {
-                                      //                   Navigator.of(context)
-                                      //                       .pop();
-                                      //                 },
-                                      //                 child:
-                                      //                     const Text('Cancel')),
-                                      //             TextButton(
-                                      //               onPressed: () async {
-                                      //                 BrandService
-                                      //                     brandService =
-                                      //                     BrandService();
-                                      //                 await brandService
-                                      //                     .deleteCategory(
-                                      //                         categories[index]
-                                      //                             .id,
-                                      //                         context)
-                                      //                     .whenComplete(() => context
-                                      //                         .read<
-                                      //                             CategoryBloc>()
-                                      //                         .add(
-                                      //                             FetchCategoriesEvent()));
-                                      //                 if (context.mounted) {
-                                      //                   Navigator.of(context)
-                                      //                       .pop();
-                                      //                 }
-                                      //               },
-                                      //               child: const Text("Delete"),
-                                      //             )
-                                      //           ],
-                                      //         ),
-                                      //       );
-                                      //     },
-                                      //     icon: const Icon(
-                                      //       Icons.delete_outline,
-                                      //       color: kRed,
-                                      //     )),
+                                      TextButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (_) => AlertDialog(
+                                                title: const Text('Bloc Brand'),
+                                                content: const Text(
+                                                    'Are you sure you want to block this brand?'),
+                                                actions: [
+                                                  TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                      child:
+                                                          const Text('Cancel')),
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      setState(() {
+                                                        if (blockStatus ==
+                                                            'Block') {
+                                                          blockStatus =
+                                                              'Unblock';
+                                                        } else {
+                                                          blockStatus = 'Block';
+                                                        }
+                                                      });
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: const Text("Block"),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                          child: Text(
+                                            blockStatus,
+                                          )),
                                       IconButton(
                                           onPressed: () {
                                             Navigator.of(context).push(

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:admin/application/business_logic/category/bloc/bloc/category_bloc.dart';
 import 'package:admin/data/service/category/category_functions.dart';
+import 'package:flutter/services.dart';
 // import 'package:admin/Data/service/category/category_functions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -96,6 +97,12 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                     children: [
                       Expanded(
                         child: TextFormField(
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.deny(
+                                RegExp(r'[!@#$%^&*(),.?":{}|<>]')),
+                            FilteringTextInputFormatter.allow(
+                                RegExp(r'[a-zA-Z]'))
+                          ],
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           controller: brandNameController,
                           decoration: const InputDecoration(
@@ -120,11 +127,20 @@ class _AddCategoryScreenState extends State<AddCategoryScreen> {
                           : Expanded(
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  setState(() {
-                                    loading = true;
-                                  });
                                   if (brandKey.currentState!.validate()) {
-                                    if (image != null) {
+                                    if (image == null) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                        content: Text(
+                                          'Add Image',
+                                          style: TextStyle(color: kWhite),
+                                        ),
+                                        backgroundColor: kRed,
+                                      ));
+                                    } else {
+                                      setState(() {
+                                        loading = true;
+                                      });
                                       BrandService brandService =
                                           BrandService();
                                       await brandService

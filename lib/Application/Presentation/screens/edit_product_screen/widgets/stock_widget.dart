@@ -1,5 +1,6 @@
 // import 'package:admin/application/Presentation/screens/edit%20product%20screen/widgets/button_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CounterContainer extends StatefulWidget {
   final int intitialCounter;
@@ -110,6 +111,32 @@ class Counter extends StatelessWidget {
         counter.toString(),
         style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       ),
+    );
+  }
+}
+
+late TextEditingController editStockController;
+
+class StockTextField extends StatelessWidget {
+  const StockTextField({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
+      ],
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      keyboardType: TextInputType.number,
+      controller: editStockController,
+      decoration: const InputDecoration(
+          border: OutlineInputBorder(), labelText: 'Enter Product Stock'),
+      validator: (value) {
+        if (value!.isEmpty) {
+          return 'Please enter Stock';
+        }
+        return null;
+      },
     );
   }
 }

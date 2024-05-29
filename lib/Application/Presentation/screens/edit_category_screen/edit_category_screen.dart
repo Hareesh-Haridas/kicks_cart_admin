@@ -11,6 +11,7 @@ import 'package:admin/application/presentation/utils/colors.dart';
 import 'package:admin/application/presentation/utils/constants.dart';
 import 'package:admin/data/service/category/category_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -32,6 +33,7 @@ class EditCategoryScreen extends StatefulWidget {
 }
 
 class _EditCategoryScreenState extends State<EditCategoryScreen> {
+  bool isLoading = false;
   GlobalKey<FormState> categoryKey = GlobalKey<FormState>();
   late TextEditingController editCategoryNameController;
   File? editImage;
@@ -77,20 +79,24 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                         border: Border.all(),
                         borderRadius: BorderRadius.circular(120),
                       ),
-                      child: GestureDetector(
-                          onTap: () async {
-                            await getImage();
-                          },
-                          child: editImage != null
-                              ? Image.file(
-                                  editImage!,
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.network(
-                                  widget.categoryImage,
-                                  fit: BoxFit.cover,
-                                )),
+                      child: editImage != null
+                          ? Image.file(
+                              editImage!,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.network(
+                              widget.categoryImage,
+                              fit: BoxFit.cover,
+                            ),
                     ),
+                    kWidth10,
+                    editImage == null
+                        ? IconButton(
+                            onPressed: () async {
+                              await getImage();
+                            },
+                            icon: const Icon(Icons.edit))
+                        : const SizedBox()
                   ],
                 ),
                 kHeight10,
@@ -108,6 +114,11 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter.deny(
+                              RegExp(r'[!@#$%^&*(),.?":{}|<>]')),
+                          FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
+                        ],
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: editCategoryNameController,
                         decoration: const InputDecoration(
@@ -125,35 +136,58 @@ class _EditCategoryScreenState extends State<EditCategoryScreen> {
                   ],
                 ),
                 kHeight20,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: kBlueGray,
-                        ),
-                        onPressed: () async {
-                          BrandService brandService = BrandService();
-                          await brandService
-                              .editCategory(
-                                editCategoryNameController.text,
-                                editImage!,
-                                context,
-                                widget.id,
-                              )
-                              .whenComplete(() => context
-                                  .read<CategoryBloc>()
-                                  .add(FetchCategoriesEvent()));
-                        },
-                        child: const Text(
-                          "Submit",
-                          style: TextStyle(color: kWhite),
-                        ),
+                isLoading
+                    ? const CircularProgressIndicator()
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: kBlueGray,
+                              ),
+                              onPressed: () async {
+                                if (categoryKey.currentState!.validate()) {
+                                  if (editImage == null) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text(
+                                        'Add new Image',
+                                        style: TextStyle(color: kWhite),
+                                      ),
+                                      backgroundColor: kRed,
+                                    ));
+                                  } else {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    BrandService brandService = BrandService();
+                                    await brandService
+                                        .editCategory(
+                                      editCategoryNameController.text,
+                                      editImage!,
+                                      context,
+                                      widget.id,
+                                    )
+                                        .whenComplete(() {
+                                      context
+                                          .read<CategoryBloc>()
+                                          .add(FetchCategoriesEvent());
+                                      setState(() {
+                                        isLoading = false;
+                                      });
+                                    });
+                                  }
+                                }
+                              },
+                              child: const Text(
+                                "Submit",
+                                style: TextStyle(color: kWhite),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),

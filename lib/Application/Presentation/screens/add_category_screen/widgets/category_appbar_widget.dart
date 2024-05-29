@@ -20,7 +20,7 @@ class AppbarWidget extends StatelessWidget implements PreferredSizeWidget {
             color: kWhite,
           )),
       title: const Text(
-        "Add Category",
+        "Add Brand",
         style: TextStyle(color: Colors.white),
       ),
       centerTitle: true,

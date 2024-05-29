@@ -59,11 +59,13 @@ final ImagePicker imagePicker = ImagePicker();
 late String editId;
 late int editStock;
 List<File?> editSelectedImages = [];
+GlobalKey<FormState> editProductKey = GlobalKey<FormState>();
 
 class _EditProductScreenState extends State<EditProductScreen> {
   @override
   void initState() {
     super.initState();
+    editStockController = TextEditingController(text: widget.stock.toString());
     editProductNameController = TextEditingController(text: widget.name);
     editProductPriceController =
         TextEditingController(text: widget.price.toString());
@@ -88,46 +90,51 @@ class _EditProductScreenState extends State<EditProductScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              kHeight30,
-              for (int i = 0; i < 4; i++)
-                ImagePickerWidget(
-                  key: UniqueKey(),
-                  index: i,
-                  image: widget.editSelectedImages[i],
-                  imageUrl: images[i],
-                  updateSelectedImage: (pickedFile, index) {
-                    setState(() {
-                      widget.editSelectedImages[index] = pickedFile;
-                    });
-                  },
-                ),
-              kHeight20,
-              const NameField(),
-              kHeight20,
-              const PriceField(),
-              kHeight20,
-              const DescriptionField(),
-              kHeight10,
-              kHeight20,
-              const EditStockAndChangeCategoryText(),
-              kHeight10,
-              Row(
-                children: [
-                  CounterContainer(
-                    intitialCounter: widget.stock,
+          child: Form(
+            key: editProductKey,
+            child: Column(
+              children: [
+                kHeight30,
+                for (int i = 0; i < 4; i++)
+                  ImagePickerWidget(
+                    key: UniqueKey(),
+                    index: i,
+                    image: widget.editSelectedImages[i],
+                    imageUrl: images[i],
+                    updateSelectedImage: (pickedFile, index) {
+                      setState(() {
+                        widget.editSelectedImages[index] = pickedFile;
+                      });
+                    },
                   ),
-                  const SizedBox(width: 120),
-                  DropdownWidget(initialValue: widget.category),
-                ],
-              ),
-              kHeight10,
-              SaveChangesButton(
-                editSelectedImages: widget.editSelectedImages,
-              ),
-              kHeight10,
-            ],
+                kHeight20,
+                const NameField(),
+                kHeight20,
+                const PriceField(),
+                kHeight20,
+                const DescriptionField(),
+                kHeight10,
+                kHeight20,
+                const EditStockAndChangeCategoryText(),
+                kHeight10,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // CounterContainer(
+                    //   intitialCounter: widget.stock,
+                    // ),
+                    const SizedBox(width: 150, child: StockTextField()),
+                    // const SizedBox(width: 120),
+                    DropdownWidget(initialValue: widget.category),
+                  ],
+                ),
+                kHeight10,
+                SaveChangesButton(
+                  editSelectedImages: widget.editSelectedImages,
+                ),
+                kHeight10,
+              ],
+            ),
           ),
         ),
       ),

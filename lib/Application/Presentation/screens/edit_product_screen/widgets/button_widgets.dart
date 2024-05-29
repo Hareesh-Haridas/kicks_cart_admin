@@ -30,45 +30,61 @@ class SaveChangesButton extends StatefulWidget {
 }
 
 class _SaveChangesButtonState extends State<SaveChangesButton> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          child: MaterialButton(
-            onPressed: () async {
-              int parsedPrice = int.parse(editProductPriceController.text);
-              ProductService productService = ProductService();
-              await productService
-                  .editProduct(
-                      widget.editSelectedImages,
-                      editProductNameController.text,
-                      parsedPrice,
-                      editProductDescriptionController.text,
-                      eCounter,
-                      editvaluechoose!,
-                      globalToken,
-                      context,
-                      editId)
-                  .whenComplete(() =>
-                      context.read<ProductBloc>().add(FetchProductsEvent()));
-            },
-            color: kBlueGray,
-            textColor: kWhite,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            height: 50,
-            child: const Text(
-              "Save Changes",
-              style: TextStyle(
-                fontSize: 20,
+    return isLoading
+        ? const CircularProgressIndicator()
+        : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: MaterialButton(
+                  onPressed: () async {
+                    if (editProductKey.currentState!.validate()) {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      int parsedPrice =
+                          int.parse(editProductPriceController.text);
+                      ProductService productService = ProductService();
+                      int parsedStock = int.parse(editStockController.text);
+                      await productService
+                          .editProduct(
+                              widget.editSelectedImages,
+                              editProductNameController.text,
+                              parsedPrice,
+                              editProductDescriptionController.text,
+                              parsedStock,
+                              editvaluechoose!,
+                              globalToken,
+                              context,
+                              editId)
+                          .whenComplete(
+                        () {
+                          setState(() {
+                            isLoading = false;
+                          });
+                          context.read<ProductBloc>().add(FetchProductsEvent());
+                        },
+                      );
+                    }
+                  },
+                  color: kBlueGray,
+                  textColor: kWhite,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                  height: 50,
+                  child: const Text(
+                    "Save Changes",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
-      ],
-    );
+            ],
+          );
   }
 }
 

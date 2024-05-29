@@ -12,6 +12,7 @@ import 'package:admin/application/presentation/screens/add_product_screen/widget
 import 'package:admin/application/presentation/screens/add_product_screen/widgets/button_widgets.dart';
 import 'package:admin/application/presentation/screens/add_product_screen/widgets/product_image_widget.dart';
 import 'package:admin/application/presentation/screens/add_product_screen/widgets/text_form_field_widgets.dart';
+import 'package:admin/application/presentation/screens/add_product_screen/widgets/text_widgets.dart';
 import 'package:admin/application/presentation/utils/colors.dart';
 import 'package:admin/application/presentation/utils/constants.dart';
 import 'package:admin/domain/models/add_category_model/add_category_model.dart';
@@ -29,8 +30,10 @@ late Future<List<dynamic>> futureCategories;
 List<String> selectedFilterChips = [];
 int counter = 0;
 String? valueChoose;
-List<File?> selectedImages = [];
+
 GlobalKey<FormState> formKey = GlobalKey<FormState>();
+List<File?> selectedImages = [];
+TextEditingController addStockController = TextEditingController();
 
 class _AddPrductScreenState extends State<AddPrductScreen> {
   void increment() {
@@ -46,6 +49,14 @@ class _AddPrductScreenState extends State<AddPrductScreen> {
       } else {
         counter = 0;
       }
+    });
+  }
+
+  void clearFields() {
+    setState(() {
+      selectedImages.clear();
+      counter = 0;
+      valueChoose = null;
     });
   }
 
@@ -114,57 +125,19 @@ class _AddPrductScreenState extends State<AddPrductScreen> {
                         style: TextStyle(fontSize: 20),
                       ),
                       Text(
-                        "Choose Category",
+                        "Choose Brand",
                         style: TextStyle(fontSize: 20),
                       )
                     ],
                   ),
                   kHeight10,
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        alignment: Alignment.center,
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                            border: Border.all(), color: Colors.blueGrey[900]),
-                        child: IconButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: () {
-                              decrement();
-                            },
-                            icon: const Icon(
-                              Icons.minimize,
-                              color: kWhite,
-                            )),
+                      const SizedBox(
+                        width: 170,
+                        child: AddStockTextField(),
                       ),
-                      Container(
-                        alignment: Alignment.center,
-                        height: 30,
-                        width: 40,
-                        decoration: BoxDecoration(border: Border.all()),
-                        child: Text(
-                          "$counter",
-                          style: const TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(
-                            border: Border.all(), color: Colors.blueGrey[900]),
-                        child: IconButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: () {
-                              increment();
-                            },
-                            icon: const Icon(
-                              Icons.add,
-                              color: kWhite,
-                            )),
-                      ),
-                      const SizedBox(width: 90),
                       BlocBuilder<CategoryBloc, CategoryState>(
                         builder: (context, state) {
                           if (state is LoadingCategoryState) {
@@ -172,12 +145,12 @@ class _AddPrductScreenState extends State<AddPrductScreen> {
                           } else if (state is LoadedCategoryState) {
                             List<BrandModel> categories = state.categories;
                             if (categories.isEmpty) {
-                              return const Text('No categories available');
+                              return const Text('No Brands available');
                             } else {
                               return DropdownButton(
                                   dropdownColor: Colors.white,
                                   style: const TextStyle(color: kWhite),
-                                  hint: const Text('Choose Category'),
+                                  hint: const Text('Choose Brand'),
                                   value: valueChoose,
                                   items: categories
                                       .map<DropdownMenuItem<String>>(
@@ -205,6 +178,7 @@ class _AddPrductScreenState extends State<AddPrductScreen> {
                   kHeight10,
                   AddProductButton(
                     contexts: context,
+                    clearFields: clearFields,
                   )
                 ],
               ),

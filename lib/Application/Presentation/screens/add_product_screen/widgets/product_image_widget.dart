@@ -32,27 +32,47 @@ class _ImageAddWidgetState extends State<ImageAddWidget> {
     } else {}
   }
 
+  void deleteImage() {
+    setState(() {
+      widget.imageList.remove(productImage);
+      widget.onImageAdded(widget.imageList);
+      productImage = null;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-            height: 150,
-            width: 260,
-            decoration: BoxDecoration(
-              border: Border.all(color: kGrey),
-            ),
-            child: productImage != null
-                ? Image.file(
-                    productImage!,
-                    fit: BoxFit.cover,
-                  )
-                : IconButton(
-                    onPressed: () async {
-                      await getImage();
-                    },
-                    icon: const Icon(Icons.add_a_photo_outlined))),
+          height: 150,
+          width: 260,
+          decoration: BoxDecoration(
+            border: Border.all(color: kGrey),
+          ),
+          child: productImage != null
+              ? Image.file(
+                  productImage!,
+                  fit: BoxFit.cover,
+                )
+              : IconButton(
+                  onPressed: () async {
+                    await getImage();
+                  },
+                  icon: const Icon(Icons.add_a_photo_outlined),
+                ),
+        ),
+        productImage != null
+            ? IconButton(
+                onPressed: () {
+                  deleteImage();
+                },
+                icon: const Icon(
+                  Icons.delete,
+                  color: kRed,
+                ))
+            : const SizedBox()
       ],
     );
   }

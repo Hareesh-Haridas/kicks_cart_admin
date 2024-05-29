@@ -14,7 +14,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddProductButton extends StatefulWidget {
   final BuildContext contexts;
-  const AddProductButton({super.key, required this.contexts});
+  final VoidCallback clearFields;
+
+  const AddProductButton({
+    super.key,
+    required this.contexts,
+    required this.clearFields,
+  });
 
   @override
   State<AddProductButton> createState() => _AddProductButtonState();
@@ -33,27 +39,62 @@ class _AddProductButtonState extends State<AddProductButton> {
                 child: MaterialButton(
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
-                      setState(() {
-                        loading = true;
-                      });
-                      ProductService productService = ProductService();
-                      await productService
-                          .addProduct(
-                              selectedImages,
-                              productNameController.text,
-                              int.parse(productPriceController.text),
-                              productDescriptionController.text,
-                              counter,
-                              valueChoose!,
-                              authToken!,
-                              "",
-                              widget.contexts)
-                          .whenComplete(() {
+                      if (selectedImages.length != 4) {
+                        ScaffoldMessenger.of(widget.contexts)
+                            .showSnackBar(const SnackBar(
+                          content: Text(
+                            'Please add all the images',
+                            style: TextStyle(color: kWhite),
+                          ),
+                          backgroundColor: kRed,
+                        ));
+                      } else if (counter == 0) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text(
+                            'Stock should not be 0',
+                            style: TextStyle(color: kWhite),
+                          ),
+                          backgroundColor: kRed,
+                        ));
+                      } else if (valueChoose == null) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text(
+                            'Please Select a Brand',
+                            style: TextStyle(color: kWhite),
+                          ),
+                          backgroundColor: kRed,
+                        ));
+                      } else {
                         setState(() {
-                          loading = false;
+                          loading = true;
+                          widget.clearFields;
                         });
-                        context.read<ProductBloc>().add(FetchProductsEvent());
-                      });
+                        ProductService productService = ProductService();
+                        await productService
+                            .addProduct(
+                                selectedImages,
+                                productNameController.text,
+                                int.parse(productPriceController.text),
+                                productDescriptionController.text,
+                                int.parse(addStockController.text),
+                                valueChoose!,
+                                authToken!,
+                                "",
+                                widget.contexts)
+                            .whenComplete(() {
+                          setState(() {
+                            loading = false;
+
+                            productNameController.clear();
+                            productPriceController.clear();
+                            productDescriptionController.clear();
+                          });
+
+                          context.read<ProductBloc>().add(FetchProductsEvent());
+                        });
+                      }
                     }
                   },
                   color: kBlueGray,
