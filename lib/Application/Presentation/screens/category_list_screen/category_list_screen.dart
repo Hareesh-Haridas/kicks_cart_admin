@@ -9,6 +9,7 @@ import 'package:admin/application/presentation/screens/category_list_screen/widg
 import 'package:admin/application/presentation/screens/edit_category_screen/edit_category_screen.dart';
 import 'package:admin/application/presentation/utils/colors.dart';
 import 'package:admin/application/presentation/utils/constants.dart';
+import 'package:admin/data/service/category/category_functions.dart';
 import 'package:admin/domain/models/add_category_model/add_category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,7 +38,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
     categoryBloc.add(FetchCategoriesEvent());
   }
 
-  String blockStatus = 'Block';
+  BrandService brandService = BrandService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +54,7 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is LoadedCategoryState) {
                 List<BrandModel>? categories = state.categories;
+                String blockStatus = 'Block';
                 if (categories.isEmpty) {
                   return const Center(child: Text('No Categories Avaiable'));
                 } else {
@@ -127,26 +129,22 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                                           const Text('Cancel')),
                                                   TextButton(
                                                     onPressed: () async {
-                                                      setState(() {
-                                                        if (blockStatus ==
-                                                            'Block') {
-                                                          blockStatus =
-                                                              'Unblock';
-                                                        } else {
-                                                          blockStatus = 'Block';
-                                                        }
-                                                      });
+                                                      await brandService
+                                                          .changeBrandStatus(
+                                                              categories[index]
+                                                                  .id,
+                                                              context);
                                                       Navigator.of(context)
                                                           .pop();
                                                     },
-                                                    child: const Text("Block"),
+                                                    child: const Text(''),
                                                   )
                                                 ],
                                               ),
                                             );
                                           },
                                           child: Text(
-                                            blockStatus,
+                                            categories[index].brandStatus,
                                           )),
                                       IconButton(
                                           onPressed: () {

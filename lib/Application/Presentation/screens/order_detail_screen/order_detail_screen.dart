@@ -26,7 +26,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   List<String> statusOptions = [
     'Shipped',
     'Delivered',
-    'Cancelled',
   ];
   String? selectedStatus;
   @override
@@ -43,9 +42,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         break;
       case 'Delivered':
         filteredOptions.remove('Shipped');
-        break;
-      case 'Cancelled':
-        filteredOptions.clear();
         break;
     }
     return filteredOptions;
@@ -189,15 +185,39 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           ).toList(),
                           hint: const Text('Select order Status'),
                           onChanged: (String? newValue) async {
-                            OrderService orderService = OrderService();
-                            await orderService
-                                .changeStatus(newValue!, context, widget.id)
-                                .whenComplete(() => context
-                                    .read<OrdersBloc>()
-                                    .add(FetchOrdersEvent()));
-                            setState(() {
-                              currentStatus = newValue;
-                            });
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Update Order Status'),
+                                    content: const Text(
+                                        'Are you sure you want to update the order status?'),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Cancel')),
+                                      TextButton(
+                                          onPressed: () async {
+                                            OrderService orderService =
+                                                OrderService();
+                                            await orderService
+                                                .changeStatus(newValue!,
+                                                    context, widget.id)
+                                                .whenComplete(() => context
+                                                    .read<OrdersBloc>()
+                                                    .add(FetchOrdersEvent()));
+                                            setState(() {
+                                              currentStatus = newValue;
+                                            });
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text('Update'))
+                                    ],
+                                  );
+                                });
+
                             // setState(() {
                             //   selectedStatus = newValue;
                             // });

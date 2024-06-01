@@ -14,7 +14,7 @@ class BrandService {
   Future<BrandModel> addBrand(
       String name, File image, String authToken, BuildContext context) async {
     String categoryToken = await getAuthToken() ?? '';
-    BrandModel brand = BrandModel(name: "", image: "", id: "");
+    BrandModel brand = BrandModel(name: "", image: "", id: "", brandStatus: "");
     try {
       FormData formData = FormData.fromMap({
         "name": name,
@@ -49,7 +49,7 @@ class BrandService {
     try {
       final response = await Dio().get(getCategoryUrl,
           options: Options(headers: {'Authorization': categoryToken}));
-
+      print(response.data);
       if (response.statusCode == 200 || response.statusCode == 201) {
         List<BrandModel> categories = (response.data['data'] as List)
             .map((json) => BrandModel.fromJson(json))
@@ -85,7 +85,8 @@ class BrandService {
       String name, File image, BuildContext context, String id) async {
     String categoryToken = await getAuthToken() ?? '';
 
-    BrandModel brandModel = BrandModel(name: "", image: "", id: "");
+    BrandModel brandModel =
+        BrandModel(name: "", image: "", id: "", brandStatus: "");
     FormData formData = FormData.fromMap({
       "name": name,
       "image": await MultipartFile.fromFile(image.path, filename: "image.jpg"),
@@ -112,6 +113,23 @@ class BrandService {
       }
     } catch (e) {
       return brandModel;
+    }
+  }
+
+  String brandStatusChengedResponse = '';
+  Future<void> changeBrandStatus(String id, BuildContext context) async {
+    String categoryToken = await getAuthToken() ?? '';
+    try {
+      final response = await Dio().post('$changeBrandStatusUrl.$id',
+          options: Options(headers: {'Authorization': categoryToken}));
+      brandStatusChengedResponse = response.data['message'] ?? '';
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        if (context.mounted) {
+          showSnackBar(context, brandStatusChengedResponse);
+        }
+      }
+    } catch (e) {
+      debugPrint('Error updating brand status $e');
     }
   }
 }

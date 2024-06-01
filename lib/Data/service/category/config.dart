@@ -3,3 +3,4 @@ const addCategoryUrl = '$baseUrl/admin/addCategory';
 const getCategoryUrl = '$baseUrl/admin/getCategory';
 const deleteCategoryUrl = '$baseUrl/admin/deleteCategory';
 const editCategoryUrl = '$baseUrl/admin/editCategory';
+const changeBrandStatusUrl = '$baseUrl/admin/changeBrandStatus';
