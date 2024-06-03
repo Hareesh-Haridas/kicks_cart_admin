@@ -74,7 +74,7 @@ class ProductService {
     try {
       final response = await Dio().get(getProductUrl,
           options: Options(headers: {'Authorization': getProductToken}));
-
+      print(response.data);
       if (response.statusCode == 200 || response.statusCode == 201) {
         List<GetProductModel> products = (response.data['data'] as List)
             .map((json) => GetProductModel.fromJson(json))
@@ -218,7 +218,8 @@ class ProductService {
             price: 0,
             description: "",
             stock: 0,
-            category: "");
+            category: "",
+            blocked: false);
       }
     } catch (e) {
       return GetProductModel(
@@ -228,7 +229,23 @@ class ProductService {
           price: 0,
           description: "",
           stock: 0,
-          category: "");
+          category: "",
+          blocked: false);
+    }
+  }
+
+  String changeProductStatusResponseMessage = '';
+  Future<void> changeProductStatus(String id, BuildContext context) async {
+    String getProductToken = await getAuthToken() ?? '';
+    try {
+      final response = await Dio().patch('$changeProductStatusUrl/$id',
+          options: Options(headers: {'Authorization': getProductToken}));
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        changeProductStatusResponseMessage = response.data['message'];
+        productShowSnackBar(context, changeProductStatusResponseMessage);
+      }
+    } catch (e) {
+      debugPrint('Error updating status $e');
     }
   }
 }

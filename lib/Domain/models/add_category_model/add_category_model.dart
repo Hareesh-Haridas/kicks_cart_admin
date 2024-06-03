@@ -3,7 +3,7 @@
 import 'package:admin/data/service/auth/config.dart';
 
 class BrandModel {
-  final String brandStatus;
+  final bool blocked;
   final String name;
   final dynamic image;
   final String id;
@@ -11,7 +11,7 @@ class BrandModel {
       {required this.name,
       required this.image,
       required this.id,
-      required this.brandStatus});
+      required this.blocked});
   factory BrandModel.fromJson(Map<String, dynamic> json) {
     if (json.containsKey('data')) {
       var data = json['data'] as List<dynamic>;
@@ -22,6 +22,6 @@ class BrandModel {
         image:
             json['image'] != null ? '$baseUrl/categories/${json['image']}' : "",
         id: json['_id'] != null ? json['_id'].toString() : "",
-        brandStatus: json['status'] ?? "");
+        blocked: json['blocked'] ?? false);
   }
 }

@@ -116,9 +116,10 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                             showDialog(
                                               context: context,
                                               builder: (_) => AlertDialog(
-                                                title: const Text('Bloc Brand'),
+                                                title: const Text(
+                                                    'Bloc/Unblock Brand'),
                                                 content: const Text(
-                                                    'Are you sure you want to block this brand?'),
+                                                    'Are you sure you want to Update brand status?'),
                                                 actions: [
                                                   TextButton(
                                                       onPressed: () {
@@ -133,19 +134,34 @@ class _CategoryListScreenState extends State<CategoryListScreen> {
                                                           .changeBrandStatus(
                                                               categories[index]
                                                                   .id,
-                                                              context);
+                                                              context)
+                                                          .whenComplete(() {
+                                                        context
+                                                            .read<
+                                                                CategoryBloc>()
+                                                            .add(
+                                                                FetchCategoriesEvent());
+                                                      });
                                                       Navigator.of(context)
                                                           .pop();
                                                     },
-                                                    child: const Text(''),
+                                                    child: const Text('Update'),
                                                   )
                                                 ],
                                               ),
                                             );
                                           },
-                                          child: Text(
-                                            categories[index].brandStatus,
-                                          )),
+                                          child: categories[index].blocked ==
+                                                  true
+                                              ? const Text(
+                                                  'Unblock',
+                                                  style:
+                                                      TextStyle(color: kGreen),
+                                                )
+                                              : const Text(
+                                                  'Block',
+                                                  style: TextStyle(color: kRed),
+                                                )),
                                       IconButton(
                                           onPressed: () {
                                             Navigator.of(context).push(

@@ -14,7 +14,7 @@ class BrandService {
   Future<BrandModel> addBrand(
       String name, File image, String authToken, BuildContext context) async {
     String categoryToken = await getAuthToken() ?? '';
-    BrandModel brand = BrandModel(name: "", image: "", id: "", brandStatus: "");
+    BrandModel brand = BrandModel(name: "", image: "", id: "", blocked: false);
     try {
       FormData formData = FormData.fromMap({
         "name": name,
@@ -49,7 +49,7 @@ class BrandService {
     try {
       final response = await Dio().get(getCategoryUrl,
           options: Options(headers: {'Authorization': categoryToken}));
-      print(response.data);
+
       if (response.statusCode == 200 || response.statusCode == 201) {
         List<BrandModel> categories = (response.data['data'] as List)
             .map((json) => BrandModel.fromJson(json))
@@ -86,7 +86,7 @@ class BrandService {
     String categoryToken = await getAuthToken() ?? '';
 
     BrandModel brandModel =
-        BrandModel(name: "", image: "", id: "", brandStatus: "");
+        BrandModel(name: "", image: "", id: "", blocked: false);
     FormData formData = FormData.fromMap({
       "name": name,
       "image": await MultipartFile.fromFile(image.path, filename: "image.jpg"),
@@ -120,7 +120,7 @@ class BrandService {
   Future<void> changeBrandStatus(String id, BuildContext context) async {
     String categoryToken = await getAuthToken() ?? '';
     try {
-      final response = await Dio().post('$changeBrandStatusUrl.$id',
+      final response = await Dio().patch('$changeBrandStatusUrl/$id',
           options: Options(headers: {'Authorization': categoryToken}));
       brandStatusChengedResponse = response.data['message'] ?? '';
       if (response.statusCode == 200 || response.statusCode == 201) {

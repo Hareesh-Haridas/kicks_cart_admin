@@ -16,6 +16,7 @@ import 'package:admin/application/presentation/screens/product_detail_screen/pro
 import 'package:admin/application/presentation/utils/colors.dart';
 import 'package:admin/application/presentation/utils/constants.dart';
 import 'package:admin/data/service/product/config.dart';
+import 'package:admin/data/service/product/product_functions.dart';
 import 'package:admin/domain/models/product/get_product_model/get_product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +31,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  ProductService productService = ProductService();
   late ProductBloc products;
   @override
   void initState() {
@@ -110,60 +112,63 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       Row(
                                         mainAxisAlignment:
-                                            MainAxisAlignment.end,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
-                                          // IconButton(
-                                          //   onPressed: () async {
-                                          //     showDialog(
-                                          //         context: context,
-                                          //         builder: (_) => AlertDialog(
-                                          //               title: const Text(
-                                          //                   'Delete Product'),
-                                          //               content: const Text(
-                                          //                   'Are You Sure You Want To Delete This Product?'),
-                                          //               actions: [
-                                          //                 TextButton(
-                                          //                   onPressed: () {
-                                          //                     Navigator.of(
-                                          //                             context)
-                                          //                         .pop();
-                                          //                   },
-                                          //                   child: const Text(
-                                          //                       'Cancel'),
-                                          //                 ),
-                                          //                 TextButton(
-                                          //                     onPressed:
-                                          //                         () async {
-                                          //                       ProductService
-                                          //                           productService =
-                                          //                           ProductService();
-                                          //                       await productService
-                                          //                           .deleteProduct(
-                                          //                               products[index]
-                                          //                                   .id,
-                                          //                               context)
-                                          //                           .whenComplete(() => context
-                                          //                               .read<
-                                          //                                   ProductBloc>()
-                                          //                               .add(
-                                          //                                   FetchProductsEvent()));
-                                          //                       if (context
-                                          //                           .mounted) {
-                                          //                         Navigator.of(
-                                          //                                 context)
-                                          //                             .pop();
-                                          //                       }
-                                          //                     },
-                                          //                     child: const Text(
-                                          //                         "Delete"))
-                                          //               ],
-                                          //             ));
-                                          //   },
-                                          //   icon: const Icon(
-                                          //     Icons.delete_outlined,
-                                          //     color: Colors.red,
-                                          //   ),
-                                          // ),
+                                          TextButton(
+                                              onPressed: () async {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (_) => AlertDialog(
+                                                          title: const Text(
+                                                              'Block/Unblocl Product'),
+                                                          content: const Text(
+                                                              'Are you sure you want to update product status?'),
+                                                          actions: [
+                                                            TextButton(
+                                                                onPressed: () {
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                },
+                                                                child: const Text(
+                                                                    'Cancel')),
+                                                            TextButton(
+                                                                onPressed:
+                                                                    () async {
+                                                                  await productService
+                                                                      .changeProductStatus(
+                                                                          products[index]
+                                                                              .id,
+                                                                          context)
+                                                                      .whenComplete(
+                                                                          () {
+                                                                    context
+                                                                        .read<
+                                                                            ProductBloc>()
+                                                                        .add(
+                                                                            FetchProductsEvent());
+                                                                  });
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop();
+                                                                },
+                                                                child: const Text(
+                                                                    'Update'))
+                                                          ],
+                                                        ));
+                                              },
+                                              child: products[index].blocked ==
+                                                      true
+                                                  ? const Text(
+                                                      'Unblock',
+                                                      style: TextStyle(
+                                                          color: kGreen),
+                                                    )
+                                                  : const Text(
+                                                      'Block',
+                                                      style: TextStyle(
+                                                          color: kRed),
+                                                    )),
                                           IconButton(
                                               onPressed: () {
                                                 Navigator.push(
