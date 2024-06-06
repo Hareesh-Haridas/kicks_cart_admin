@@ -71,8 +71,7 @@ class _OrderScreenState extends State<OrderScreen> {
                           onTap: () =>
                               Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => OrderDetailScreen(
-                                        id: orders[index].id,
-                                        index: index,
+                                        order: orders[index],
                                       ))),
                           child: Container(
                             height: 230,

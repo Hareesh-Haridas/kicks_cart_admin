@@ -12,9 +12,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OrderDetailScreen extends StatefulWidget {
-  final String id;
-  final int index;
-  const OrderDetailScreen({super.key, required this.id, required this.index});
+  final GetOrderModel order;
+  const OrderDetailScreen({
+    super.key,
+    required this.order,
+  });
 
   @override
   State<OrderDetailScreen> createState() => _OrderDetailScreenState();
@@ -28,8 +30,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     'Delivered',
   ];
   String? selectedStatus;
+  String currentStatus = '';
   @override
   void initState() {
+    currentStatus = widget.order.currentStatus;
     super.initState();
     // ordersBloc = context.read<OrdersBloc>();
     // ordersBloc.add(FetchOrdersEvent());
@@ -55,7 +59,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: FutureBuilder(
-            future: orderService.getAllOrders(widget.id),
+            future: orderService.getAllOrders(widget.order.id),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -64,7 +68,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               } else {
                 List<GetAllOrderModel> orders = snapshot.data!;
                 print('order length: ${orders.length}');
-                String currentStatus = orders[widget.index].currentStatus;
+
                 print('Current Status : $currentStatus');
                 return Column(
                   children: [
@@ -204,12 +208,14 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                                 OrderService();
                                             await orderService
                                                 .changeStatus(newValue!,
-                                                    context, widget.id)
+                                                    context, widget.order.id)
                                                 .whenComplete(() => context
                                                     .read<OrdersBloc>()
-                                                    .add(FetchOrdersEvent()));
-                                            setState(() {
-                                              currentStatus = newValue;
+                                                    .add(FetchOrdersEvent()))
+                                                .whenComplete(() {
+                                              setState(() {
+                                                currentStatus = newValue;
+                                              });
                                             });
                                             Navigator.of(context).pop();
                                           },
@@ -226,28 +232,6 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                       ],
                     ),
                     const Divider(),
-                    // kHeight20,
-                    Row(
-                      children: [
-                        BlocBuilder<OrdersBloc, OrdersState>(
-                          builder: (context, state) {
-                            if (state is LoadingOrdersState) {
-                              return const Text('Loading...');
-                            } else if (state is LoadedOrderState) {
-                              List<GetOrderModel> orders = state.orders;
-                              return Text(
-                                  'User Name: ${orders[widget.index].userName}');
-                            } else {
-                              return const Text('User NaUnknown error');
-                            }
-                          },
-                        ),
-                      ],
-                    ),
-                    // kHeight10,
-                    // const Row(
-                    //   children: [Text('User Name')],
-                    // ),
                   ],
                 );
               }
