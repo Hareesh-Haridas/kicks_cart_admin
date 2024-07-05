@@ -82,7 +82,7 @@ class _ProductNameWidgetState extends State<ProductNameWidget> {
   Widget build(BuildContext context) {
     return TextFormField(
       textCapitalization: TextCapitalization.words,
-      inputFormatters: <TextInputFormatter>[
+      inputFormatters: const <TextInputFormatter>[
         // FilteringTextInputFormatter.deny(RegExp(r'[!@#$%^&*(),.?":{}|<>]')),
         // FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
       ],

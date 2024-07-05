@@ -11,7 +11,7 @@ class KicksCartText extends StatelessWidget {
     return Row(
       children: [
         Text(
-          'Kicks Cart',
+          'Foot Rush',
           style: GoogleFonts.bangers(fontSize: 40),
         )
       ],

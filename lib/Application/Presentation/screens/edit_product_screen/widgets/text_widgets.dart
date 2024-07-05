@@ -120,9 +120,10 @@ class _NameFieldState extends State<NameField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      textCapitalization: TextCapitalization.words,
       inputFormatters: <TextInputFormatter>[
         FilteringTextInputFormatter.deny(RegExp(r'[!@#$%^&*(),.?":{}|<>]')),
-        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))
+        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z ]')),
       ],
       autovalidateMode: AutovalidateMode.onUserInteraction,
       controller: editProductNameController,
@@ -131,7 +132,7 @@ class _NameFieldState extends State<NameField> {
         labelText: 'Enter Product Name',
       ),
       validator: (value) {
-        if (value!.isEmpty) {
+        if (value!.trim().isEmpty) {
           return 'Please Enter Product Name';
         }
         return null;

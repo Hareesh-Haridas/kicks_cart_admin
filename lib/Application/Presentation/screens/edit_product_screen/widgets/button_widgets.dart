@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 
 // import 'package:admin/Application/Business%20logic/product/bloc/bloc/product_bloc.dart';
@@ -30,6 +31,7 @@ class SaveChangesButton extends StatefulWidget {
 }
 
 class _SaveChangesButtonState extends State<SaveChangesButton> {
+  int parsedStock = int.parse(editStockController.text);
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
@@ -41,33 +43,55 @@ class _SaveChangesButtonState extends State<SaveChangesButton> {
               Expanded(
                 child: MaterialButton(
                   onPressed: () async {
-                    if (editProductKey.currentState!.validate()) {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      int parsedPrice =
-                          int.parse(editProductPriceController.text);
-                      ProductService productService = ProductService();
-                      int parsedStock = int.parse(editStockController.text);
-                      await productService
-                          .editProduct(
-                              widget.editSelectedImages,
-                              editProductNameController.text,
-                              parsedPrice,
-                              editProductDescriptionController.text,
-                              parsedStock,
-                              editvaluechoose!,
-                              globalToken,
-                              context,
-                              editId)
-                          .whenComplete(
-                        () {
-                          setState(() {
-                            isLoading = false;
-                          });
-                          context.read<ProductBloc>().add(FetchProductsEvent());
-                        },
+                    if (widget.editSelectedImages.length != 4) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Please add all the images',
+                            style: TextStyle(color: kWhite),
+                          ),
+                          backgroundColor: kRed,
+                        ),
                       );
+                    } else if (int.parse(editStockController.text) == 0) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text(
+                          'Stock should not be 0',
+                          style: TextStyle(color: kWhite),
+                        ),
+                        backgroundColor: kRed,
+                      ));
+                    } else {
+                      if (editProductKey.currentState!.validate()) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        int parsedPrice =
+                            int.parse(editProductPriceController.text);
+                        ProductService productService = ProductService();
+
+                        await productService
+                            .editProduct(
+                                widget.editSelectedImages,
+                                editProductNameController.text,
+                                parsedPrice,
+                                editProductDescriptionController.text,
+                                int.parse(editStockController.text),
+                                editvaluechoose!,
+                                globalToken,
+                                context,
+                                editId)
+                            .whenComplete(
+                          () {
+                            setState(() {
+                              isLoading = false;
+                            });
+                            context
+                                .read<ProductBloc>()
+                                .add(FetchProductsEvent());
+                          },
+                        );
+                      }
                     }
                   },
                   color: kBlueGray,

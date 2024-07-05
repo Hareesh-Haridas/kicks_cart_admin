@@ -26,43 +26,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return FutureBuilder<String?>(
-    //   future: getAuthToken(),
-    //   builder: (context, snapshot) {
-    //     if (snapshot.connectionState == ConnectionState.waiting) {
-    //       return const CircularProgressIndicator();
-    //     } else {
-    //       if (snapshot.hasData && snapshot.data != null) {
-    //         return MultiBlocProvider(
-    //           providers: [
-    //             BlocProvider<BottomNavigationBloc>(
-    //                 create: (context) => BottomNavigationBloc()),
-    //             BlocProvider<CategoryBloc>(create: (context) => CategoryBloc()),
-    //             BlocProvider<ProductBloc>(create: (context) => ProductBloc()),
-    //             BlocProvider<OrdersBloc>(create: (context) => OrdersBloc()),
-    //           ],
-    //           child: MaterialApp(
-    //             debugShowCheckedModeBanner: false,
-    //             theme: ThemeData(
-    //               textTheme: GoogleFonts.openSansTextTheme(
-    //                   Theme.of(context).textTheme),
-    //             ),
-    //             home: const RootPage(),
-    //           ),
-    //         );
-    //       } else {
-    //         return MaterialApp(
-    //           debugShowCheckedModeBanner: false,
-    //           theme: ThemeData(
-    //             textTheme:
-    //                 GoogleFonts.openSansTextTheme(Theme.of(context).textTheme),
-    //           ),
-    //           home: const LoginScreen(),
-    //         );
-    //       }
-    //     }
-    //   },
-    // );
     return MultiBlocProvider(
       providers: [
         BlocProvider<BottomNavigationBloc>(
